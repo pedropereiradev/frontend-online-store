@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getProductsFromCategoryAndQuery } from './services/api';
 import Loading from './components/Loading';
 import './App.css';
+import Categories from './Components/Categories';
 
 class App extends Component {
   constructor() {
@@ -91,6 +92,7 @@ class App extends Component {
             <h2>Nenhum produto foi encontrado</h2>
           )}
         </section>
+        <Categories />
       </div>
     );
   }
