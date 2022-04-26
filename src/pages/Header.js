@@ -1,7 +1,7 @@
 import React from 'react';
 import BntCarrinho from '../components/BntCarrinho';
 
-class Serach extends React.Component {
+class Header extends React.Component {
   render() {
     return (
       <div>
@@ -14,4 +14,4 @@ class Serach extends React.Component {
   }
 }
 
-export default Serach;
+export default Header;
