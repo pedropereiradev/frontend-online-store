@@ -1,13 +1,15 @@
-import React from 'react';
-// import * as api from './services/api';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <p>app</p>
-    </div>
-  );
-}
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <h1 data-testid="home-initial-message">
+          Digite algum termo de pesquisa ou escolha uma categoria.
+        </h1>
+      </div>
+    );
+  }
 
 export default App;
