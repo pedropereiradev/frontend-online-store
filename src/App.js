@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { getProductsFromCategoryAndQuery } from './services/api';
 import Loading from './components/Loading';
 import './App.css';
-import Categories from './Components/Categories';
+import Categories from './components/Categories';
+import Form from './components/Form';
+import Products from './components/Products';
 
 class App extends Component {
   constructor() {
@@ -51,47 +53,16 @@ class App extends Component {
 
     return (
       <div className="App">
-        <form>
-          <input
-            type="text"
-            name="search"
-            value={ search }
-            placeholder="Buscar produtos..."
-            onChange={ this.handleChange }
-            data-testid="query-input"
-          />
-          <button
-            type="submit"
-            name="onSearchButtonClick"
-            onClick={ this.onSearchButtonClick }
-            data-testid="query-button"
-          >
-            Buscar
-          </button>
-        </form>
-        {introMessage && (
-          <h1 data-testid="home-initial-message">
-            Digite algum termo de pesquisa ou escolha uma categoria.
-          </h1>
-        )}
-        <section>
-          {!noResults ? (
-            <ul>
-              {products.map((product) => (
-                <li key={ product.id } data-testid="product">
-                  <h3>{product.title}</h3>
-                  <img
-                    src={ product.thumbnail }
-                    alt={ `Imagem do produto ${product.title}` }
-                  />
-                  <span>{product.price}</span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <h2>Nenhum produto foi encontrado</h2>
-          )}
-        </section>
+        <Form
+          search={ search }
+          handleChange={ this.handleChange }
+          onSearchButtonClick={ this.onSearchButtonClick }
+        />
+        <Products
+          introMessage={ introMessage }
+          noResults={ noResults }
+          products={ products }
+        />
         <Categories />
       </div>
     );
