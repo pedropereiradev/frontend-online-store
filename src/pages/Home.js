@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import Categories from '../Components/Categories';
+import Categories from '../components/Categories';
 import Loading from '../components/Loading';
+import Form from '../components/Form';
+import Products from '../components/Products';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 
 class Home extends Component {
