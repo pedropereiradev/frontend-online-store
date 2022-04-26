@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Categories from '../components/Categories';
 import Loading from '../components/Loading';
+import Header from './Header';
 import Form from '../components/Form';
 import Products from '../components/Products';
 import { getProductsFromCategoryAndQuery } from '../services/api';
@@ -50,6 +51,7 @@ class Home extends Component {
 
     return (
       <div>
+        <Header />
         <Form
           search={ search }
           handleChange={ this.handleChange }
