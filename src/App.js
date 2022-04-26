@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { getProductsFromCategoryAndQuery } from './services/api';
 import Loading from './components/Loading';
 import './App.css';
-import Categories from './Components/Categories';
+import Categories from './components/Categories';
 
 class App extends Component {
   constructor() {
@@ -10,6 +10,7 @@ class App extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.onSearchButtonClick = this.onSearchButtonClick.bind(this);
+    this.renderProductsByCategory = this.renderProductsByCategory.bind(this);
 
     this.state = {
       search: '',
@@ -40,6 +41,18 @@ class App extends Component {
         isLoading: false,
         introMessage: false,
         search: '',
+      });
+    });
+  }
+
+  async renderProductsByCategory({ target: { id } }) {
+    const { results } = await getProductsFromCategoryAndQuery(id);
+    this.setState({
+      isLoading: true,
+      products: results,
+    }, () => {
+      this.setState({
+        isLoading: false,
       });
     });
   }
@@ -92,7 +105,7 @@ class App extends Component {
             <h2>Nenhum produto foi encontrado</h2>
           )}
         </section>
-        <Categories />
+        <Categories renderProductsByCategory={ this.renderProductsByCategory } />
       </div>
     );
   }
