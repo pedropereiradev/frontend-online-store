@@ -8,7 +8,7 @@ class BntCarrinho extends React.Component {
         to="/cart"
         data-testid="shopping-cart-button"
       >
-        Carinho
+        Carrinho
       </Link>
     );
   }

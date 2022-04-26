@@ -12,6 +12,7 @@ class Home extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.onSearchButtonClick = this.onSearchButtonClick.bind(this);
+    this.renderProductsByCategory = this.renderProductsByCategory.bind(this);
 
     this.state = {
       search: '',
@@ -44,6 +45,21 @@ class Home extends Component {
     });
   }
 
+  async renderProductsByCategory({ target: { id } }) {
+    const { results } = await getProductsFromCategoryAndQuery(id);
+    if (!results) this.setState({ noResults: true });
+    this.setState({
+      isLoading: true,
+      products: results,
+      introMessage: false,
+      search: '',
+    }, () => {
+      this.setState({
+        isLoading: false,
+      });
+    });
+  }
+
   render() {
     const { introMessage, search, isLoading, products, noResults } = this.state;
 
@@ -62,7 +78,9 @@ class Home extends Component {
           noResults={ noResults }
           products={ products }
         />
-        <Categories />
+        <Categories
+          renderProductsByCategory={ this.renderProductsByCategory }
+        />
       </div>
     );
   }
