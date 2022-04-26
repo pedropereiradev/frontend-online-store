@@ -51,6 +51,7 @@ class Home extends Component {
 
     return (
       <div>
+        <Header />
         <Form
           search={ search }
           handleChange={ this.handleChange }
