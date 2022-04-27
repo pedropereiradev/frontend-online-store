@@ -1,5 +1,5 @@
 import React from 'react';
-import BntCarrinho from '../components/BntCarrinho';
+import BntCarrinho from './BntCarrinho';
 
 class Header extends React.Component {
   render() {
