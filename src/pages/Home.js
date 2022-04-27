@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Form from '../components/Form';
 import Products from '../components/Products';
 import { getProductsFromCategoryAndQuery } from '../services/api';
+import { setNewCartProduct } from '../services/cartApi';
 
 class Home extends Component {
   constructor() {
@@ -13,6 +14,7 @@ class Home extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSearchButtonClick = this.onSearchButtonClick.bind(this);
     this.renderProductsByCategory = this.renderProductsByCategory.bind(this);
+    this.addToCart = this.addToCart.bind(this);
 
     this.state = {
       search: '',
@@ -20,6 +22,7 @@ class Home extends Component {
       introMessage: false,
       isLoading: false,
       noResults: false,
+      cart: [],
     };
   }
 
@@ -42,6 +45,15 @@ class Home extends Component {
         introMessage: false,
         search: '',
       });
+    });
+  }
+
+  addToCart(productId) {
+    const { products } = this.state;
+    const product = products.find(({ id }) => productId === id);
+
+    this.setState(({ cart }) => ({ cart: [...cart, product] }), () => {
+      setNewCartProduct(product);
     });
   }
 
@@ -77,6 +89,7 @@ class Home extends Component {
           introMessage={ introMessage }
           noResults={ noResults }
           products={ products }
+          addToCart={ this.addToCart }
         />
         <Categories
           renderProductsByCategory={ this.renderProductsByCategory }
