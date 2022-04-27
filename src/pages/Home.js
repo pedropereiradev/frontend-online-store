@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Categories from '../components/Categories';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
@@ -74,12 +75,16 @@ class Home extends Component {
 
   render() {
     const { introMessage, search, isLoading, products, noResults } = this.state;
+    const { history: { goBack, location: { pathname } } } = this.props;
 
     if (isLoading) return <Loading />;
 
     return (
       <div>
-        <Header />
+        <Header
+          actualRoute={ pathname }
+          goBack={ goBack }
+        />
         <Form
           search={ search }
           handleChange={ this.handleChange }
@@ -98,5 +103,14 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
 export default Home;
