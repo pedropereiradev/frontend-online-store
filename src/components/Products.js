@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 class Products extends Component {
   render() {
-    const { introMessage, noResults, products } = this.props;
+    const { introMessage, noResults, products, addToCart } = this.props;
 
     if (introMessage) {
       return (
@@ -30,13 +30,21 @@ class Products extends Component {
                   />
                   <span>{product.price}</span>
                 </Link>
+                <button
+                  type="button"
+                  onClick={ () => addToCart(product.id) }
+                  data-testid="product-add-to-cart"
+                >
+                  Adicionar ao Carrinho
+                </button>
               </li>
             ))}
           </ul>
         ) : (
           <h2>Nenhum produto foi encontrado</h2>
         )}
-      </section>);
+      </section>
+    );
   }
 }
 
@@ -44,6 +52,7 @@ Products.propTypes = {
   introMessage: Proptypes.bool.isRequired,
   noResults: Proptypes.bool.isRequired,
   products: Proptypes.arrayOf(Proptypes.object).isRequired,
+  addToCart: Proptypes.func.isRequired,
 };
 
 export default Products;
