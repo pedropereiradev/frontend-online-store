@@ -28,6 +28,9 @@ class Products extends Component {
                     src={ product.thumbnail }
                     alt={ `Imagem do produto ${product.title}` }
                   />
+                  {product.shipping.free_shipping && (
+                    <span data-testid="free-shipping">Frete Gratis</span>
+                  )}
                   <span>{product.price}</span>
                 </Link>
                 <button
