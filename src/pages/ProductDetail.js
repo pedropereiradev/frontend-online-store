@@ -43,39 +43,26 @@ class ProductDetail extends Component {
     const {
       history: { goBack, location: { pathname } } } = this.props;
     const {
+      productInfos,
       productInfos: { thumbnail, title, attributes },
       isloading,
     } = this.state;
 
     return (
       <main>
-        <Header
-          actualRoute={ pathname }
-          goBack={ goBack }
-        />
+        <Header actualRoute={ pathname } goBack={ goBack } />
         {isloading ? (
           <Loading />
         ) : (
           <section>
-            <section>
-              <h2 data-testid="product-detail-name">{title}</h2>
-              <div>
-                <img src={ thumbnail } alt={ `imagem de : ${title}` } />
-                <div>
-                  <ul>
-                    {attributes.map(({ id, name, value_name: value }) => (
-                      <li key={ id }>
-                        <h3>{name === null ? '-' : name}</h3>
-                        <p>{value === null ? '-' : value}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </section>
-            <section>
-              <Avaliation />
-            </section>
+            <ProductDetailCard
+              productInfos={ productInfos }
+              title={ title }
+              thumbnail={ thumbnail }
+              attributes={ attributes }
+              addToCart={ this.addToCart }
+            />
+            <Avaliation />
           </section>
         )}
       </main>
