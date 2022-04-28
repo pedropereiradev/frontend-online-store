@@ -1,35 +1,47 @@
 import React, { Component } from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 class ProductCart extends Component {
+  constructor() {
+    super();
+    this.state = { amount: 1 };
+  }
+
+  lessItems = (prevAmount) => prevAmount > 0 && this.setState({
+    amount: prevAmount - 1,
+  });
+
+  moreItems = (prevAmount) => this.setState({ amount: prevAmount + 1 });
+
   render() {
-    const { products, handleClick } = this.props;
+    const { amount } = this.state;
+    const { product, handleClick } = this.props;
+    console.log(product);
     return (
-      <ul>
-        {products.map((product) => (
-          <li key={ product.id }>
-            <h3 data-testid="shopping-cart-product-name">{product.title}</h3>
-            <img
-              src={ product.thumbnail }
-              alt={ `Imagem do produto ${product.title}` }
-            />
-            <span>{product.price}</span>
-            <span data-testid="shopping-cart-product-quantity">
-              Quantidade: 1
-            </span>
-            <button type="button" onClick={ () => handleClick(product) }>
-              Remover
-            </button>
-          </li>
-        ))}
-      </ul>
+      <li key={ product.id }>
+        <button type="button" onClick={ () => handleClick(product) }>
+          Remover
+        </button>
+        <img
+          src={ product.thumbnail }
+          alt={ `Imagem do produto ${product.title}` }
+        />
+        <h3 data-testid="shopping-cart-product-name">{product.title}</h3>
+        <span>{product.price}</span>
+        <button type="button" onClick={ () => this.lessItems(amount) }>-</button>
+        <span data-testid="shopping-cart-product-quantity">
+          Quantidade:
+          {amount}
+        </span>
+        <button type="button" onClick={ () => this.moreItems(amount) }>+</button>
+      </li>
     );
   }
 }
 
 ProductCart.propTypes = {
-  products: Proptypes.arrayOf(Proptypes.object).isRequired,
-  handleClick: Proptypes.func.isRequired,
+  product: PropTypes.objectOf(PropTypes.any).isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default ProductCart;
