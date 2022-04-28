@@ -24,6 +24,7 @@ class Home extends Component {
       isLoading: false,
       noResults: false,
       cart: [],
+      cartStatus: false,
     };
   }
 
@@ -55,6 +56,14 @@ class Home extends Component {
 
     this.setState(({ cart }) => ({ cart: [...cart, product] }), () => {
       setNewCartProduct(product);
+
+      this.setState({
+        cartStatus: true,
+      }, () => {
+        this.setState({
+          cartStatus: false,
+        });
+      });
     });
   }
 
@@ -74,7 +83,8 @@ class Home extends Component {
   }
 
   render() {
-    const { introMessage, search, isLoading, products, noResults } = this.state;
+    const { introMessage, search, isLoading, products,
+      noResults, cartStatus } = this.state;
     const { history: { goBack, location: { pathname } } } = this.props;
 
     if (isLoading) return <Loading />;
@@ -84,6 +94,7 @@ class Home extends Component {
         <Header
           actualRoute={ pathname }
           goBack={ goBack }
+          updateCart={ cartStatus }
         />
         <Form
           search={ search }

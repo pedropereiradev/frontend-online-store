@@ -4,7 +4,7 @@ import BntCarrinho from './BntCarrinho';
 
 class Header extends React.Component {
   render() {
-    const { actualRoute, goBack } = this.props;
+    const { actualRoute, goBack, updateCart } = this.props;
 
     return (
       <header>
@@ -16,7 +16,7 @@ class Header extends React.Component {
             Voltar
           </button>
         )}
-        <BntCarrinho />
+        <BntCarrinho updateCart={ updateCart } />
       </header>
     );
   }
@@ -25,6 +25,7 @@ class Header extends React.Component {
 Header.propTypes = {
   goBack: PropTypes.func.isRequired,
   actualRoute: PropTypes.string.isRequired,
+  updateCart: PropTypes.bool.isRequired,
 };
 
 export default Header;
