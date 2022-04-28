@@ -28,7 +28,7 @@ class Cart extends React.Component {
 
   render() {
     const { products } = this.state;
-    return products.length === 0 ? (
+    return !products.length ? (
       <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
     ) : (
       <ul>
