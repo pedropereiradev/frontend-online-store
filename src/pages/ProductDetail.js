@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
+import Avaliation from '../components/Avaliation';
 import * as api from '../services/api';
 
 class ProductDetail extends Component {
@@ -19,43 +20,57 @@ class ProductDetail extends Component {
   }
 
   getProductInfo = async () => {
-    const { match: { params: { id } } } = this.props;
+    const {
+      match: {
+        params: { id },
+      },
+    } = this.props;
     const productDetails = await api.getProductFromId(id);
 
     this.setState({
       productInfos: { ...productDetails },
       isloading: false,
     });
-  }
+  };
 
   render() {
-    const { history: { goBack, location: { pathname } } } = this.props;
-    const { productInfos: { thumbnail, title, attributes }, isloading } = this.state;
+    const {
+      history: {
+        goBack,
+        location: { pathname },
+      },
+    } = this.props;
+    const {
+      productInfos: { thumbnail, title, attributes },
+      isloading,
+    } = this.state;
 
     return (
       <main>
-        <Header
-          actualRoute={ pathname }
-          goBack={ goBack }
-        />
-        {isloading ? <Loading /> : (
+        <Header actualRoute={ pathname } goBack={ goBack } />
+        {isloading ? (
+          <Loading />
+        ) : (
           <section>
-            <h2 data-testid="product-detail-name">{title}</h2>
-            <div>
-              <img src={ thumbnail } alt={ `imagem de : ${title}` } />
+            <section>
+              <h2 data-testid="product-detail-name">{title}</h2>
               <div>
-                <ul>
-                  {attributes.map(({ id, name, value_name: value }) => (
-                    <li
-                      key={ id }
-                    >
-                      <h3>{name === null ? '-' : name}</h3>
-                      <p>{ value === null ? '-' : value }</p>
-                    </li>
-                  ))}
-                </ul>
+                <img src={ thumbnail } alt={ `imagem de : ${title}` } />
+                <div>
+                  <ul>
+                    {attributes.map(({ id, name, value_name: value }) => (
+                      <li key={ id }>
+                        <h3>{name === null ? '-' : name}</h3>
+                        <p>{value === null ? '-' : value}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
+            </section>
+            <section>
+              <Avaliation />
+            </section>
           </section>
         )}
       </main>
