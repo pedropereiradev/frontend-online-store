@@ -4,6 +4,8 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import Avaliation from '../components/Avaliation';
 import * as api from '../services/api';
+import ProductDetailCard from '../components/ProductDetailCard';
+import { setNewCartProduct } from '../services/cartApi';
 
 class ProductDetail extends Component {
   constructor() {
@@ -32,6 +34,10 @@ class ProductDetail extends Component {
       isloading: false,
     });
   };
+
+  addToCart(product) {
+    setNewCartProduct(product);
+  }
 
   render() {
     const {
