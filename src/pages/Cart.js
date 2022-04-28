@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { getCartProducts, removeCartItem } from '../services/cartApi';
 import ProductCart from '../components/ProductCart';
 
@@ -31,15 +32,18 @@ class Cart extends React.Component {
     return !products.length ? (
       <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
     ) : (
-      <ul>
-        {products.map((product) => (
-          <ProductCart
-            key={ product.id }
-            product={ product }
-            handleClick={ this.handleClick }
-          />
-        ))}
-      </ul>
+      <section>
+        <ul>
+          {products.map((product) => (
+            <ProductCart
+              key={ product.id }
+              product={ product }
+              handleClick={ this.handleClick }
+            />
+          ))}
+        </ul>
+        <Link to="/checkout" data-testid="checkout-products">Finalizar compra</Link>
+      </section>
     );
   }
 }

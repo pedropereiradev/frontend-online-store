@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
+import Avaliation from '../components/Avaliation';
 import * as api from '../services/api';
 import ProductDetailCard from '../components/ProductDetailCard';
 import { setNewCartProduct } from '../services/cartApi';
@@ -24,14 +25,18 @@ class ProductDetail extends Component {
   }
 
   getProductInfo = async () => {
-    const { match: { params: { id } } } = this.props;
+    const {
+      match: {
+        params: { id },
+      },
+    } = this.props;
     const productDetails = await api.getProductFromId(id);
 
     this.setState({
       productInfos: { ...productDetails },
       isloading: false,
     });
-  }
+  };
 
   addToCart(product) {
     setNewCartProduct(product);
@@ -46,7 +51,8 @@ class ProductDetail extends Component {
   }
 
   render() {
-    const { history: { goBack, location: { pathname } } } = this.props;
+    const {
+      history: { goBack, location: { pathname } } } = this.props;
     const {
       productInfos,
       productInfos: { thumbnail, title, attributes },
@@ -56,24 +62,25 @@ class ProductDetail extends Component {
 
     return (
       <main>
-        <Header
+        <Header 
           actualRoute={ pathname }
-          goBack={ goBack }
+          goBack={ goBack } 
           updateCart={ cartStatus }
         />
-        {
-          isloading
-            ? <Loading />
-            : (
-              <ProductDetailCard
-                productInfos={ productInfos }
-                title={ title }
-                thumbnail={ thumbnail }
-                attributes={ attributes }
-                addToCart={ this.addToCart }
-              />
-            )
-        }
+        {isloading ? (
+          <Loading />
+        ) : (
+          <section>
+            <ProductDetailCard
+              productInfos={ productInfos }
+              title={ title }
+              thumbnail={ thumbnail }
+              attributes={ attributes }
+              addToCart={ this.addToCart }
+            />
+            <Avaliation />
+          </section>
+        )}
       </main>
     );
   }

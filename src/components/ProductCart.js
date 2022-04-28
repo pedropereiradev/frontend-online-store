@@ -17,10 +17,14 @@ class ProductCart extends Component {
     total: prevTotal - price,
   });
 
-  moreItems = (prevAmount, price, prevTotal) => this.setState({
-    amount: prevAmount + 1,
-    total: prevTotal + price,
-  });
+  moreItems = (prevAmount, product, prevTotal) => {
+    if (prevAmount < product.available_quantity) {
+      this.setState({
+        amount: prevAmount + 1,
+        total: prevTotal + product.price,
+      });
+    }
+  }
 
   render() {
     const { product, handleClick } = this.props;
@@ -50,7 +54,7 @@ class ProductCart extends Component {
         <button
           data-testid="product-increase-quantity"
           type="button"
-          onClick={ () => this.moreItems(amount, product.price, total) }
+          onClick={ () => this.moreItems(amount, product, total) }
         >
           +
         </button>
