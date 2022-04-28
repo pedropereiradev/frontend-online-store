@@ -4,19 +4,27 @@ import PropTypes from 'prop-types';
 class ProductCart extends Component {
   constructor() {
     super();
-    this.state = { amount: 1 };
+    this.state = { amount: 1, total: 0 };
   }
 
-  lessItems = (prevAmount) => prevAmount > 0 && this.setState({
+  componentDidMount() {
+    const { product: { price } } = this.props;
+    this.setState({ total: price });
+  }
+
+  lessItems = (prevAmount, price, prevTotal) => prevAmount > 0 && this.setState({
     amount: prevAmount - 1,
+    total: prevTotal - price,
   });
 
-  moreItems = (prevAmount) => this.setState({ amount: prevAmount + 1 });
+  moreItems = (prevAmount, price, prevTotal) => this.setState({
+    amount: prevAmount + 1,
+    total: prevTotal + price,
+  });
 
   render() {
-    const { amount } = this.state;
     const { product, handleClick } = this.props;
-    console.log(product);
+    const { amount, total } = this.state;
     return (
       <li key={ product.id }>
         <button type="button" onClick={ () => handleClick(product) }>
@@ -28,12 +36,28 @@ class ProductCart extends Component {
         />
         <h3 data-testid="shopping-cart-product-name">{product.title}</h3>
         <span>{product.price}</span>
-        <button type="button" onClick={ () => this.lessItems(amount) }>-</button>
+        <button
+          data-testid="product-decrease-quantity"
+          type="button"
+          onClick={ () => this.lessItems(amount, product.price, total) }
+        >
+          -
+        </button>
         <span data-testid="shopping-cart-product-quantity">
           Quantidade:
           {amount}
         </span>
-        <button type="button" onClick={ () => this.moreItems(amount) }>+</button>
+        <button
+          data-testid="product-increase-quantity"
+          type="button"
+          onClick={ () => this.moreItems(amount, product.price, total) }
+        >
+          +
+        </button>
+        <span>
+          Total:
+          {total}
+        </span>
       </li>
     );
   }
