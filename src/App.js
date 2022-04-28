@@ -4,6 +4,7 @@ import Cart from './pages/Cart';
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import './App.css';
+import Checkout from './pages/Checkout';
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" render={ (props) => <Home { ...props } /> } />
           <Route exact path="/cart" component={ Cart } />
+          <Route exact path="/checkout" component={ Checkout } />
           <Route
             exact
             path="/product/:id"
