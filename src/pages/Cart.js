@@ -28,14 +28,18 @@ class Cart extends React.Component {
 
   render() {
     const { products } = this.state;
-    console.log(products);
     return products.length === 0 ? (
       <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
     ) : (
-      <ProductCart
-        products={ products }
-        handleClick={ this.handleClick }
-      />
+      <ul>
+        {products.map((product) => (
+          <ProductCart
+            key={ product.id }
+            product={ product }
+            handleClick={ this.handleClick }
+          />
+        ))}
+      </ul>
     );
   }
 }
