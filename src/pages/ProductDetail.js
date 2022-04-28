@@ -62,9 +62,9 @@ class ProductDetail extends Component {
 
     return (
       <main>
-        <Header 
+        <Header
           actualRoute={ pathname }
-          goBack={ goBack } 
+          goBack={ goBack }
           updateCart={ cartStatus }
         />
         {isloading ? (
