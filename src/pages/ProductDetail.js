@@ -14,7 +14,10 @@ class ProductDetail extends Component {
     this.state = {
       productInfos: {},
       isloading: true,
+      cartStatus: false,
     };
+
+    this.addToCart = this.addToCart.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +40,14 @@ class ProductDetail extends Component {
 
   addToCart(product) {
     setNewCartProduct(product);
+
+    this.setState({
+      cartStatus: true,
+    }, () => {
+      this.setState({
+        cartStatus: false,
+      });
+    });
   }
 
   render() {
@@ -46,11 +57,16 @@ class ProductDetail extends Component {
       productInfos,
       productInfos: { thumbnail, title, attributes },
       isloading,
+      cartStatus,
     } = this.state;
 
     return (
       <main>
-        <Header actualRoute={ pathname } goBack={ goBack } />
+        <Header
+          actualRoute={ pathname }
+          goBack={ goBack }
+          updateCart={ cartStatus }
+        />
         {isloading ? (
           <Loading />
         ) : (
