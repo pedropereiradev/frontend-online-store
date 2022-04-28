@@ -35,11 +35,7 @@ class ProductDetail extends Component {
 
   render() {
     const {
-      history: {
-        goBack,
-        location: { pathname },
-      },
-    } = this.props;
+      history: { goBack, location: { pathname } } } = this.props;
     const {
       productInfos: { thumbnail, title, attributes },
       isloading,
@@ -47,7 +43,10 @@ class ProductDetail extends Component {
 
     return (
       <main>
-        <Header actualRoute={ pathname } goBack={ goBack } />
+        <Header
+          actualRoute={ pathname }
+          goBack={ goBack }
+        />
         {isloading ? (
           <Loading />
         ) : (
