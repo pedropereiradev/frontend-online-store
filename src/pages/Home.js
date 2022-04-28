@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Categories from '../components/Categories';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Form from '../components/Form';
 import Products from '../components/Products';
 import { getProductsFromCategoryAndQuery } from '../services/api';
+import { setNewCartProduct } from '../services/cartApi';
 
 class Home extends Component {
   constructor() {
@@ -13,6 +15,7 @@ class Home extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSearchButtonClick = this.onSearchButtonClick.bind(this);
     this.renderProductsByCategory = this.renderProductsByCategory.bind(this);
+    this.addToCart = this.addToCart.bind(this);
 
     this.state = {
       search: '',
@@ -20,6 +23,7 @@ class Home extends Component {
       introMessage: false,
       isLoading: false,
       noResults: false,
+      cart: [],
     };
   }
 
@@ -45,6 +49,15 @@ class Home extends Component {
     });
   }
 
+  addToCart(productId) {
+    const { products } = this.state;
+    const product = products.find(({ id }) => productId === id);
+
+    this.setState(({ cart }) => ({ cart: [...cart, product] }), () => {
+      setNewCartProduct(product);
+    });
+  }
+
   async renderProductsByCategory({ target: { id } }) {
     const { results } = await getProductsFromCategoryAndQuery(id);
     if (!results) this.setState({ noResults: true });
@@ -62,12 +75,16 @@ class Home extends Component {
 
   render() {
     const { introMessage, search, isLoading, products, noResults } = this.state;
+    const { history: { goBack, location: { pathname } } } = this.props;
 
     if (isLoading) return <Loading />;
 
     return (
       <div>
-        <Header />
+        <Header
+          actualRoute={ pathname }
+          goBack={ goBack }
+        />
         <Form
           search={ search }
           handleChange={ this.handleChange }
@@ -77,6 +94,7 @@ class Home extends Component {
           introMessage={ introMessage }
           noResults={ noResults }
           products={ products }
+          addToCart={ this.addToCart }
         />
         <Categories
           renderProductsByCategory={ this.renderProductsByCategory }
@@ -85,5 +103,14 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
 export default Home;

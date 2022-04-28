@@ -1,20 +1,41 @@
 import React from 'react';
-import CartProduct from '../components/CartProduct';
+import { getCartProducts, removeCartItem } from '../services/cartApi';
+import ProductCart from '../components/ProductCart';
 
 class Cart extends React.Component {
   constructor() {
     super();
-    this.state = { isEmpty: false };
+
+    this.handleClick = this.handleClick.bind(this);
+
+    this.state = {
+      products: [],
+    };
+  }
+
+  componentDidMount() {
+    const products = getCartProducts();
+
+    this.setState({ products });
+  }
+
+  handleClick(product) {
+    removeCartItem(product);
+    const products = getCartProducts();
+
+    this.setState({ products });
   }
 
   render() {
-    const { isEmpty } = this.state;
-    if (isEmpty) {
-      return (
-        <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
-      );
-    } return (
-      <CartProduct />
+    const { products } = this.state;
+    console.log(products);
+    return products.length === 0 ? (
+      <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
+    ) : (
+      <ProductCart
+        products={ products }
+        handleClick={ this.handleClick }
+      />
     );
   }
 }
