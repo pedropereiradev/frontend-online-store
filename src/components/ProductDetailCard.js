@@ -13,6 +13,9 @@ class ProductDetailCard extends Component {
     return (
       <section>
         <h2 data-testid="product-detail-name">{title}</h2>
+        {productInfos.shipping.free_shipping && (
+          <span data-testid="free-shipping">Frete Gratis</span>
+        )}
         <div>
           <img src={ thumbnail } alt={ `imagem de : ${title}` } />
           <div>
