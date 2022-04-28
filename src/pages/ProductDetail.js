@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import * as api from '../services/api';
+import ProductDetailCard from '../components/ProductDetailCard';
+import { setNewCartProduct } from '../services/cartApi';
 
 class ProductDetail extends Component {
   constructor() {
@@ -28,9 +30,17 @@ class ProductDetail extends Component {
     });
   }
 
+  addToCart(product) {
+    setNewCartProduct(product);
+  }
+
   render() {
     const { history: { goBack, location: { pathname } } } = this.props;
-    const { productInfos: { thumbnail, title, attributes }, isloading } = this.state;
+    const {
+      productInfos,
+      productInfos: { thumbnail, title, attributes },
+      isloading,
+    } = this.state;
 
     return (
       <main>
@@ -38,26 +48,19 @@ class ProductDetail extends Component {
           actualRoute={ pathname }
           goBack={ goBack }
         />
-        {isloading ? <Loading /> : (
-          <section>
-            <h2 data-testid="product-detail-name">{title}</h2>
-            <div>
-              <img src={ thumbnail } alt={ `imagem de : ${title}` } />
-              <div>
-                <ul>
-                  {attributes.map(({ id, name, value_name: value }) => (
-                    <li
-                      key={ id }
-                    >
-                      <h3>{name === null ? '-' : name}</h3>
-                      <p>{ value === null ? '-' : value }</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </section>
-        )}
+        {
+          isloading
+            ? <Loading />
+            : (
+              <ProductDetailCard
+                productInfos={ productInfos }
+                title={ title }
+                thumbnail={ thumbnail }
+                attributes={ attributes }
+                addToCart={ this.addToCart }
+              />
+            )
+        }
       </main>
     );
   }
