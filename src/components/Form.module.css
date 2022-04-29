@@ -1,0 +1,26 @@
+.form {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+
+.form input {
+  border: none;
+  border-bottom: 1px solid grey;
+  border-left: 1px solid grey;
+  border-radius: 5px 0 0 5px;
+  border-top: 1px solid grey;
+  outline: none;
+  padding: 10px 14px;
+  width: 370px;
+}
+
+.form button {
+  background-color: white;
+  border: none;
+  border-bottom: 1px solid grey;
+  border-radius: 0 5px 5px 0;
+  border-right: 1px solid grey;
+  border-top: 1px solid grey;
+  cursor: pointer;
+}
