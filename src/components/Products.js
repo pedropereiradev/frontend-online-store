@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
 import Proptypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { getCartProducts } from '../services/cartApi';
 
 class Products extends Component {
+  constructor() {
+    super();
+    this.state = { productInCart: [] };
+  }
+
+  componentDidMount() {
+    this.setState({ productInCart: getCartProducts() });
+  }
+
   render() {
+    const { productInCart } = this.state;
+    console.log(productInCart);
     const { introMessage, noResults, products, addToCart } = this.props;
 
     if (introMessage) {
@@ -24,6 +36,9 @@ class Products extends Component {
                   to={ `/product/${product.id}` }
                 >
                   <h3>{product.title}</h3>
+                  {productInCart.map(({ id }) => id.includes(product.id) && (
+                    <span key={ id }>No Carrinho</span>
+                  ))}
                   <img
                     src={ product.thumbnail }
                     alt={ `Imagem do produto ${product.title}` }
