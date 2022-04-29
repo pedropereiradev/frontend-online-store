@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as api from '../services/api';
+import styles from './Categories.module.css';
 
 class Categories extends Component {
   constructor() {
@@ -27,7 +28,7 @@ class Categories extends Component {
     const { categories } = this.state;
     const { renderProductsByCategory } = this.props;
     return (
-      <aside>
+      <aside className={ styles.content }>
         <h2>Categorias</h2>
         <div>
           <ul>

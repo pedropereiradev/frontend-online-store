@@ -1,0 +1,19 @@
+.content {
+  align-items: center;
+  border: 1px solid gainsboro;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 50px;
+  padding: 10px 25px;
+  width: 250px;
+}
+
+.content h2 {
+  font-size: 1.5em;
+  margin-bottom: 12px;
+}
+
+.content li {
+  margin-bottom: 18px;
+}
