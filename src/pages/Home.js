@@ -59,7 +59,7 @@ class Home extends Component {
     }));
   }
 
-  backdropClickHandler = () => {
+  closeDrawerHandler = () => {
     this.setState({
       sideDrawerState: false,
     });
@@ -99,15 +99,20 @@ class Home extends Component {
 
   render() {
     const { introMessage, search, isLoading, products,
-      noResults, cartStatus, sideDrawerState } = this.state;
+      noResults, cartStatus, sideDrawerState, cart } = this.state;
     const { history: { goBack, location: { pathname } } } = this.props;
 
     let sideDrawer;
     let backdrop;
 
     if (sideDrawerState) {
-      sideDrawer = <SideDrawer />;
-      backdrop = <Backdrop backdropClickHandler={ this.backdropClickHandler } />;
+      sideDrawer = (
+        <SideDrawer
+          closeSliderHandler={ this.closeDrawerHandler }
+          cartItems={ cart }
+        />
+      );
+      backdrop = <Backdrop backdropClickHandler={ this.closeDrawerHandler } />;
     }
 
     if (isLoading) return <Loading />;

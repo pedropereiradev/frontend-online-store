@@ -65,6 +65,7 @@ Header.propTypes = {
   goBack: PropTypes.func.isRequired,
   actualRoute: PropTypes.string.isRequired,
   updateCart: PropTypes.bool.isRequired,
+  drawerClickHandler: PropTypes.func.isRequired,
 };
 
 export default Header;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import style from './SideDrawer.module.css';
 
 class BntCarrinho extends React.Component {
   render() {
@@ -8,8 +9,9 @@ class BntCarrinho extends React.Component {
         <Link
           to="/cart"
           data-testid="shopping-cart-button"
+          className={ style.cart }
         >
-          Carrinho
+          Carrinho de Compras
         </Link>
       </div>
     );

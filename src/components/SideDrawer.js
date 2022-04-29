@@ -1,19 +1,68 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BntCarrinho from './BntCarrinho';
+import ProductCart from './ProductCart';
+import style from './SideDrawer.module.css';
+import { getCartProducts, removeCartItem } from '../services/cartApi';
 
 class SideDrawer extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      getAllCartProducts: false,
+      products: [],
+    };
+  }
+
+  componentDidMount() {
+    const cartItems = getCartProducts();
+
+    this.setState({
+      products: [...cartItems],
+      getAllCartProducts: true,
+    });
+  }
+
+  handleClick = (product) => {
+    removeCartItem(product);
+    const products = getCartProducts();
+
+    this.setState({ products });
+  }
+
   render() {
-    const { updateCart } = this.props;
+    const { closeSliderHandler } = this.props;
+    const { products, getAllCartProducts } = this.state;
 
     return (
-      <div>
-        <div>X</div>
-        <div>
-          <BntCarrinho updateCart={ updateCart } />
-          <section>
-            produtos
-          </section>
+      <div className={ style.drawerContainer }>
+        <div
+          className={ style.closeDrawer }
+          onClick={ closeSliderHandler }
+          onKeyDown={ this.handleKeyDown }
+          role="button"
+          tabIndex="0"
+        >
+          X
+        </div>
+        <div className={ style.sideDrawer }>
+          <div>
+            <BntCarrinho />
+            <section>
+              {
+                getAllCartProducts && (
+                  products.map((product) => (
+                    <ProductCart
+                      key={ product.id }
+                      product={ product }
+                      handleClick={ this.handleClick }
+                    />
+                  ))
+                )
+              }
+            </section>
+          </div>
         </div>
       </div>
     );
@@ -21,7 +70,7 @@ class SideDrawer extends Component {
 }
 
 SideDrawer.propTypes = {
-  updateCart: PropTypes.bool.isRequired,
+  closeSliderHandler: PropTypes.func.isRequired,
 };
 
 export default SideDrawer;

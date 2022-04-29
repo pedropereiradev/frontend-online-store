@@ -1,0 +1,46 @@
+.cart {
+    color: white;
+    font-size: 25px;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.cart:hover {
+    text-decoration: underline;
+}
+
+.closeDrawer {
+    background-color: black;
+    font-size: 30px;
+    color: white;
+    display: inline-block;
+    height: 35px;
+    padding: 5px;
+}
+
+.closeDrawer:hover {
+    cursor: pointer;
+}
+
+.drawerContainer {
+    position: fixed;
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+    top: 0;
+    right: 0;
+    width: 500px;
+    z-index: 200;
+}
+
+.sideDrawer {
+    height: 100%;
+    background-color: black;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.5) ;
+    color: white;
+    height: 100%;
+    padding: 15px;
+    top: 0;
+    right: 0;
+    width: 100%;
+}
