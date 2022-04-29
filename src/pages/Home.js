@@ -4,7 +4,7 @@ import Categories from '../components/Categories';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Form from '../components/Form';
-import Products from '../components/Products';
+import Products from './Products';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import { setNewCartProduct } from '../services/cartApi';
 
