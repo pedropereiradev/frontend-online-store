@@ -6,7 +6,9 @@
   flex-direction: column;
   margin-right: 50px;
   padding: 10px 25px;
-  width: 250px;
+
+  /* border: 1px solid red; */
+  width: 400px;
 }
 
 .content h2 {
