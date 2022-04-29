@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BntCarrinho from './BntCarrinho';
 import logo from '../assets/logo.svg';
-import styles from '../styles/Header.module.css';
+import styles from './Header.module.css';
 
 class Header extends React.Component {
   render() {
