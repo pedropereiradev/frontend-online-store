@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getCartProducts } from '../services/cartApi';
+import cartIcon from '../assets/cartIcon.svg';
+import styles from '../styles/BntCarrinho.module.css';
 
 class BntCarrinho extends React.Component {
   constructor() {
@@ -27,6 +29,8 @@ class BntCarrinho extends React.Component {
   shouldUpdateCartQtd = () => {
     const { updateCart } = this.props;
 
+    console.log(updateCart);
+
     if (updateCart) {
       const qtd = getCartProducts().length;
 
@@ -40,14 +44,19 @@ class BntCarrinho extends React.Component {
     const { productQtd } = this.state;
 
     return (
-      <div>
+      <div className={ styles.cart }>
         <Link
           to="/cart"
           data-testid="shopping-cart-button"
         >
-          Carrinho
+          <img src={ cartIcon } alt="Carrinho de compras" />
         </Link>
-        <span data-testid="shopping-cart-size">{ productQtd }</span>
+        <span
+          className={ styles.quantityIcon }
+          data-testid="shopping-cart-size"
+        >
+          {productQtd}
+        </span>
       </div>
     );
   }
