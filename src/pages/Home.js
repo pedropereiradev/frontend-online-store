@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Categories from '../components/Categories';
+import Backdrop from '../components/Backdrop';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Form from '../components/Form';
+import SideDrawer from '../components/SideDrawer';
 import Products from '../components/Products';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import { setNewCartProduct } from '../services/cartApi';
@@ -25,6 +27,7 @@ class Home extends Component {
       noResults: false,
       cart: [],
       cartStatus: false,
+      sideDrawerState: false,
     };
   }
 
@@ -47,6 +50,18 @@ class Home extends Component {
         introMessage: false,
         search: '',
       });
+    });
+  }
+
+  drawerToggleClickHandler = () => {
+    this.setState(({ sideDrawerState: oldvalue }) => ({
+      sideDrawerState: !oldvalue,
+    }));
+  }
+
+  backdropClickHandler = () => {
+    this.setState({
+      sideDrawerState: false,
     });
   }
 
@@ -84,8 +99,16 @@ class Home extends Component {
 
   render() {
     const { introMessage, search, isLoading, products,
-      noResults, cartStatus } = this.state;
+      noResults, cartStatus, sideDrawerState } = this.state;
     const { history: { goBack, location: { pathname } } } = this.props;
+
+    let sideDrawer;
+    let backdrop;
+
+    if (sideDrawerState) {
+      sideDrawer = <SideDrawer />;
+      backdrop = <Backdrop backdropClickHandler={ this.backdropClickHandler } />;
+    }
 
     if (isLoading) return <Loading />;
 
@@ -95,7 +118,10 @@ class Home extends Component {
           actualRoute={ pathname }
           goBack={ goBack }
           updateCart={ cartStatus }
+          drawerClickHandler={ this.drawerToggleClickHandler }
         />
+        {sideDrawer}
+        {backdrop}
         <Form
           search={ search }
           handleChange={ this.handleChange }

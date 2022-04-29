@@ -1,10 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BntCarrinho from './BntCarrinho';
+import { getCartProducts } from '../services/cartApi';
 
 class Header extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      productQtd: 0,
+    };
+  }
+
+  componentDidMount() {
+    const qtd = getCartProducts().length;
+
+    this.setState({
+      productQtd: qtd,
+    });
+  }
+
+  componentDidUpdate() {
+    this.shouldUpdateCartQtd();
+  }
+
+  shouldUpdateCartQtd = () => {
+    const { updateCart } = this.props;
+
+    if (updateCart) {
+      const qtd = getCartProducts().length;
+
+      this.setState({
+        productQtd: qtd,
+      });
+    }
+  }
+
   render() {
-    const { actualRoute, goBack, updateCart } = this.props;
+    const { actualRoute, goBack, drawerClickHandler } = this.props;
+    const { productQtd } = this.state;
 
     return (
       <header>
@@ -16,7 +49,13 @@ class Header extends React.Component {
             Voltar
           </button>
         )}
-        <BntCarrinho updateCart={ updateCart } />
+        <button
+          type="button"
+          onClick={ drawerClickHandler }
+        >
+          Carrinho
+          <span data-testid="shopping-cart-size">{ productQtd }</span>
+        </button>
       </header>
     );
   }
