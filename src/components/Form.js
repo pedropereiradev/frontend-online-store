@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Proptypes from 'prop-types';
+import styles from './Form.module.css';
+import searchIcon from '../assets/searchIcon.svg';
 
 class Form extends Component {
   render() {
     const { search, handleChange, onSearchButtonClick } = this.props;
     return (
-      <form>
+      <form className={ styles.form }>
         <input
           type="text"
           name="search"
@@ -20,7 +22,7 @@ class Form extends Component {
           onClick={ onSearchButtonClick }
           data-testid="query-button"
         >
-          Buscar
+          <img src={ searchIcon } alt="Botão de busca" />
         </button>
       </form>
     );

@@ -1,0 +1,21 @@
+.header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.logo {
+  align-items: center;
+  display: flex;
+  margin-left: 20px;
+}
+
+.logo img {
+  height: 60px;
+  width: 60px;
+}
+
+.logo h1 {
+  font-size: 2em;
+}
