@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Proptypes from 'prop-types';
 import Product from '../components/Product';
+import styles from './Products.module.css';
 
 class Products extends Component {
   render() {
@@ -16,7 +17,7 @@ class Products extends Component {
     return (
       <section>
         {!noResults ? (
-          <ul>
+          <ul className={ styles.products }>
             {products.map((product) => (
               <Product
                 key={ product.id }

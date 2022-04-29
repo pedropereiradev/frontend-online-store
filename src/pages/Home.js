@@ -7,6 +7,7 @@ import Form from '../components/Form';
 import Products from './Products';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import { setNewCartProduct } from '../services/cartApi';
+import styles from './Home.module.css';
 
 class Home extends Component {
   constructor() {
@@ -90,27 +91,31 @@ class Home extends Component {
     if (isLoading) return <Loading />;
 
     return (
-      <div>
+      <section>
         <Header
           actualRoute={ pathname }
           goBack={ goBack }
           updateCart={ cartStatus }
         />
-        <Form
-          search={ search }
-          handleChange={ this.handleChange }
-          onSearchButtonClick={ this.onSearchButtonClick }
-        />
-        <Products
-          introMessage={ introMessage }
-          noResults={ noResults }
-          products={ products }
-          addToCart={ this.addToCart }
-        />
-        <Categories
-          renderProductsByCategory={ this.renderProductsByCategory }
-        />
-      </div>
+        <section className={ styles.container }>
+          <Categories
+            renderProductsByCategory={ this.renderProductsByCategory }
+          />
+          <section className={ styles.productsSection }>
+            <Form
+              search={ search }
+              handleChange={ this.handleChange }
+              onSearchButtonClick={ this.onSearchButtonClick }
+            />
+            <Products
+              introMessage={ introMessage }
+              noResults={ noResults }
+              products={ products }
+              addToCart={ this.addToCart }
+            />
+          </section>
+        </section>
+      </section>
     );
   }
 }

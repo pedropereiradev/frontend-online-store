@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getCartProducts } from '../services/cartApi';
+import styles from './Products.module.css';
 
 class Product extends Component {
   constructor() {
@@ -13,23 +14,27 @@ class Product extends Component {
     const { product, addToCart } = this.props;
     const { productInCart } = this.state;
     return (
-      <li data-testid="product">
+      <li key={ product.id } data-testid="product">
         <Link
           data-testid="product-detail-link"
           to={ `/product/${product.id}` }
+          className={ styles.content }
         >
-          <h3>{ product.title }</h3>
-          {productInCart.map(({ id }) => id.includes(product.id) && (
-            <span key={ id }>No Carrinho</span>
-          ))}
-          <img
-            src={ product.thumbnail }
-            alt={ `Imagem do produto ${product.title}` }
-          />
-          {product.shipping.free_shipping && (
-            <span data-testid="free-shipping">Frete Gratis</span>
-          )}
-          <span>{ product.price }</span>
+          <header>
+            <h3>{product.title}</h3>
+          </header>
+          <main>
+            <img
+              src={ product.thumbnail }
+              alt={ `Imagem do produto ${product.title}` }
+            />
+            <section>
+              <p>{`R$ ${product.price}`}</p>
+              {product.shipping.free_shipping && (
+                <span data-testid="free-shipping">Frete Gratis</span>
+              )}
+            </section>
+          </main>
         </Link>
         <button
           type="button"
