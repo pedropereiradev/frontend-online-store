@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getCartProducts } from '../services/cartApi';
 import styles from '../pages/Products.module.css';
 
 class Product extends Component {
-  constructor() {
-    super();
-    this.state = { productInCart: getCartProducts() };
-  }
-
   render() {
     const { product, addToCart } = this.props;
-    const { productInCart } = this.state;
+
     return (
       <li key={ product.id } data-testid="product">
         <Link

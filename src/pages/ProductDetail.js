@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import Avaliation from '../components/Avaliation';
+import SideDrawer from '../components/SideDrawer';
+import Backdrop from '../components/Backdrop';
 import * as api from '../services/api';
 import ProductDetailCard from '../components/ProductDetailCard';
 import { setNewCartProduct } from '../services/cartApi';
@@ -15,6 +17,7 @@ class ProductDetail extends Component {
       productInfos: {},
       isloading: true,
       cartStatus: false,
+      sideDrawerState: false,
     };
 
     this.addToCart = this.addToCart.bind(this);
@@ -22,6 +25,18 @@ class ProductDetail extends Component {
 
   componentDidMount() {
     this.getProductInfo();
+  }
+
+  drawerToggleClickHandler = () => {
+    this.setState(({ sideDrawerState: oldvalue }) => ({
+      sideDrawerState: !oldvalue,
+    }));
+  }
+
+  closeDrawerHandler = () => {
+    this.setState({
+      sideDrawerState: false,
+    });
   }
 
   getProductInfo = async () => {
@@ -58,7 +73,20 @@ class ProductDetail extends Component {
       productInfos: { thumbnail, title, attributes },
       isloading,
       cartStatus,
+      sideDrawerState,
     } = this.state;
+
+    let sideDrawer;
+    let backdrop;
+
+    if (sideDrawerState) {
+      sideDrawer = (
+        <SideDrawer
+          closeSliderHandler={ this.closeDrawerHandler }
+        />
+      );
+      backdrop = <Backdrop backdropClickHandler={ this.closeDrawerHandler } />;
+    }
 
     return (
       <main>
@@ -66,7 +94,10 @@ class ProductDetail extends Component {
           actualRoute={ pathname }
           goBack={ goBack }
           updateCart={ cartStatus }
+          drawerClickHandler={ this.drawerToggleClickHandler }
         />
+        {sideDrawer}
+        {backdrop}
         {isloading ? (
           <Loading />
         ) : (
