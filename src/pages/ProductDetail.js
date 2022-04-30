@@ -65,14 +65,7 @@ class ProductDetail extends Component {
 
   addToCart(product) {
     setNewCartProduct(product);
-
-    this.setState({
-      cartStatus: true,
-    }, () => {
-      this.setState({
-        cartStatus: false,
-      });
-    });
+    this.updateCartStatus();
   }
 
   render() {
