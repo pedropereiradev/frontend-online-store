@@ -3,7 +3,6 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Cart from './pages/Cart';
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
-import './App.css';
 import Checkout from './pages/Checkout';
 
 class App extends Component {

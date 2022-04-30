@@ -39,6 +39,16 @@ class ProductDetail extends Component {
     });
   }
 
+  updateCartStatus = () => {
+    this.setState({
+      cartStatus: true,
+    }, () => {
+      this.setState({
+        cartStatus: false,
+      });
+    });
+  }
+
   getProductInfo = async () => {
     const {
       match: {
@@ -83,6 +93,7 @@ class ProductDetail extends Component {
       sideDrawer = (
         <SideDrawer
           closeSliderHandler={ this.closeDrawerHandler }
+          updateCart={ this.updateCartStatus }
         />
       );
       backdrop = <Backdrop backdropClickHandler={ this.closeDrawerHandler } />;
