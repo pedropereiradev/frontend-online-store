@@ -55,9 +55,9 @@ class BuyerInfo extends Component {
               onChange={ handleChange }
             />
             {email !== '' && (
-              isEmailValid
-                ? <p style={ { color: 'green' } }>✔</p>
-                : <p style={ { color: 'red' } }>E-mail inválido</p>
+              !isEmailValid.length
+                ? <p style={ { color: 'red' } }>E-mail inválido</p>
+                : <p style={ { color: 'green' } }>✔</p>
             )}
           </label>
           <label htmlFor="cpf">
@@ -181,7 +181,7 @@ class BuyerInfo extends Component {
 }
 
 BuyerInfo.propTypes = {
-  isEmailValid: PropTypes.bool.isRequired,
+  isEmailValid: PropTypes.arrayOf(PropTypes.any).isRequired,
   isCPFvalid: PropTypes.bool.isRequired,
   email: PropTypes.string.isRequired,
   isPhoneValid: PropTypes.bool.isRequired,
