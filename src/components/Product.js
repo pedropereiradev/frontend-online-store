@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import styles from '../pages/Products.module.css';
+import { getCartProducts } from '../services/cartApi';
+import styles from './Products.module.css';
 
 class Product extends Component {
+  constructor() {
+    super();
+    this.state = { productInCart: getCartProducts(), inCart: false };
+  }
+
+  componentDidMount() {
+    const { productInCart } = this.state;
+    const { product } = this.props;
+
+    productInCart.map(({ id }) => id.includes(product.id) && (
+      this.setState({ inCart: true })
+    ));
+  }
+
   render() {
     const { product, addToCart } = this.props;
-    console.log(product);
+    const { inCart } = this.state;
     return (
       <li data-testid="product">
         <Link
@@ -30,6 +45,7 @@ class Product extends Component {
             </section>
           </main>
         </Link>
+        {inCart && <span>No Carrinho</span>}
         <button
           type="button"
           onClick={ () => addToCart(product.id) }
