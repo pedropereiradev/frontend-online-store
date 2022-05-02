@@ -87,7 +87,6 @@ class Home extends Component {
     const { introMessage, search, isLoading, products,
       noResults, cartStatus } = this.state;
     const { history: { goBack, location: { pathname } } } = this.props;
-
     if (isLoading) return <Loading />;
 
     return (

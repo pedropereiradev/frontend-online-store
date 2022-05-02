@@ -23,7 +23,7 @@ class Product extends Component {
     const { product, addToCart } = this.props;
     const { inCart } = this.state;
     return (
-      <li key={ product.id } data-testid="product">
+      <li data-testid="product">
         <Link
           data-testid="product-detail-link"
           to={ `/product/${product.id}` }

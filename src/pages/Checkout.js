@@ -26,7 +26,7 @@ class Checkout extends Component {
       numero: '',
       complemento: '',
       uf: '',
-      isEmailValid: false,
+      isEmailValid: [],
       isCPFvalid: false,
       isPhoneValid: false,
       isCEPinfoDisabled: true,
@@ -97,9 +97,14 @@ class Checkout extends Component {
 
   handleChange({ target: { name, value } }) {
     this.setState({ [name]: value });
-    if (name === 'email') {
+    const isEmailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,3})$/i);
+    if (name === 'email' && isEmailValid) {
       this.setState({
-        isEmailValid: value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,3})$/i),
+        isEmailValid,
+      });
+    } else if (name === 'email' && !isEmailValid) {
+      this.setState({
+        isEmailValid: [],
       });
     }
     if (name === 'telefone') {
