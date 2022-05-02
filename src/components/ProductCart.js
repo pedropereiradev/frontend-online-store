@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { updateQtde } from '../services/cartApi';
 
 class ProductCart extends Component {
   constructor() {
@@ -8,13 +9,17 @@ class ProductCart extends Component {
   }
 
   componentDidMount() {
-    const { product: { price } } = this.props;
+    const { product: { price, id } } = this.props;
     this.setState({ total: price });
+    updateQtde(id, 1);
   }
 
-  lessItems = (prevAmount, price, prevTotal) => prevAmount > 0 && this.setState({
+  lessItems = (prevAmount, product, prevTotal) => prevAmount > 0 && this.setState({
     amount: prevAmount - 1,
-    total: prevTotal - price,
+    total: prevTotal - product.price,
+  }, () => {
+    const { amount } = this.state;
+    updateQtde(product.id, amount);
   });
 
   moreItems = (prevAmount, product, prevTotal) => {
@@ -22,6 +27,9 @@ class ProductCart extends Component {
       this.setState({
         amount: prevAmount + 1,
         total: prevTotal + product.price,
+      }, () => {
+        const { amount } = this.state;
+        updateQtde(product.id, amount);
       });
     }
   }
@@ -43,7 +51,7 @@ class ProductCart extends Component {
         <button
           data-testid="product-decrease-quantity"
           type="button"
-          onClick={ () => this.lessItems(amount, product.price, total) }
+          onClick={ () => this.lessItems(amount, product, total) }
         >
           -
         </button>

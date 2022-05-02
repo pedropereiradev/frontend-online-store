@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { getQtde } from '../services/cartApi';
 
 class Review extends Component {
+  getExactPrice(id, price) {
+    return getQtde(id).amount * price;
+  }
+
   render() {
     const { cart, total } = this.props;
     return (
@@ -15,8 +20,10 @@ class Review extends Component {
                 src={ thumbnail }
                 alt={ `produto ${title}` }
               />
-              <p>Quantidade: 1</p>
-              <p>{ `R$ ${price.toFixed(2)}` }</p>
+              <span>
+                <p>{ `Quantidade: ${getQtde(id).amount}` }</p>
+                <p>{ `R$ ${this.getExactPrice(id, price).toFixed(2)}` }</p>
+              </span>
             </span>
           ))
         }
