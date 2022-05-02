@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { updateQtde } from '../services/cartApi';
+import { getQtde, updateQtde } from '../services/cartApi';
 
 class ProductCart extends Component {
   constructor() {
     super();
-    this.state = { amount: 1, total: 0 };
+    this.state = { amount: 0, total: 0 };
   }
 
   componentDidMount() {
     const { product: { price, id } } = this.props;
-    this.setState({ total: price });
-    updateQtde(id, 1);
+    this.setState({
+      total: price,
+      amount: getQtde(id).amount,
+    });
   }
 
   lessItems = (prevAmount, product, prevTotal) => prevAmount > 0 && this.setState({
