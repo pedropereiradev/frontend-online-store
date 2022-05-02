@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import BuyerInfo from '../components/BuyerInfo';
 import Payment from '../components/Payment';
 import Review from '../components/Review';
-import { getCartProducts } from '../services/cartApi';
+import { cleanCart, getCartProducts, getQtde } from '../services/cartApi';
+import getCepInfo from '../services/cepApi';
+import { eightNumberPhone, formatCpf, nineNumberPhone } from '../services/infoApi';
+import CompraConcluida from '../components/CompraConcluida';
 
 class Checkout extends Component {
   constructor() {
@@ -12,34 +15,193 @@ class Checkout extends Component {
     this.state = {
       cart: [],
       total: 0,
+      nomeCompleto: '',
+      email: '',
+      telefone: '',
+      cpf: '',
+      cep: '',
+      bairro: '',
+      localidade: '',
+      logradouro: '',
+      numero: '',
+      complemento: '',
+      uf: '',
+      isEmailValid: false,
+      isCPFvalid: false,
+      isPhoneValid: false,
+      isCEPinfoDisabled: true,
+      loading: false,
+      payment: '',
+      pedidoConcluido: false,
     };
+
+    this.handleCPF = this.handleCPF.bind(this);
+    this.handlePhone = this.handlePhone.bind(this);
+    this.handleCEP = this.handleCEP.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handlePurchase = this.handlePurchase.bind(this);
   }
 
   componentDidMount() {
     const cart = getCartProducts();
-    const total = cart.reduce((acc, { price }) => acc + price, 0);
+    const total = cart.reduce((acc, { price, id }) => (
+      acc + (price * getQtde(id).amount)
+    ), 0);
     this.setState({ cart, total });
   }
 
+  componentWillUnmount() {
+    const { pedidoConcluido } = this.state;
+    if (pedidoConcluido) cleanCart();
+  }
+
+  handlePurchase() {
+    this.setState({ pedidoConcluido: true });
+  }
+
+  handleCPF(event) {
+    const { value } = event.target;
+    const { isCPFvalid } = this.state;
+    if (isCPFvalid) {
+      this.setState({ cpf: formatCpf(value) });
+    } else {
+      event.target.value = '';
+    }
+  }
+
+  handlePhone(event) {
+    const MIN_PHONE_LENGTH = 10;
+    const { value } = event.target;
+    const { isPhoneValid } = this.state;
+    if (isPhoneValid) {
+      if (value.length === MIN_PHONE_LENGTH + 1) {
+        this.setState({ isPhoneValid: true, telefone: eightNumberPhone(value) });
+      } else {
+        this.setState({ isPhoneValid: true, telefone: nineNumberPhone(value) });
+      }
+    } else { event.target.value = ''; }
+  }
+
+  handleCEP({ target: { value } }) {
+    const MIN_CEP_LENGTH = 8;
+    if (value !== '' && value.length === MIN_CEP_LENGTH) {
+      this.setState({ loading: true }, async () => {
+        const { cep, bairro, uf, localidade, logradouro } = await getCepInfo(value);
+        const isCEPinfoDisabled = false;
+        this.setState({
+          loading: false, cep, bairro, uf, localidade, logradouro, isCEPinfoDisabled,
+        });
+      });
+    }
+  }
+
+  handleChange({ target: { name, value } }) {
+    this.setState({ [name]: value });
+    if (name === 'email') {
+      this.setState({
+        isEmailValid: value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,3})$/i),
+      });
+    }
+    if (name === 'telefone') {
+      const MIN_PHONE_LENGTH = 10;
+      this.setState({
+        isPhoneValid: (
+          value.length === MIN_PHONE_LENGTH + 1 || value.length === MIN_PHONE_LENGTH
+        ),
+      });
+    }
+    if (name === 'cpf') {
+      const MIN_CPF_LENGTH = 11;
+      this.setState({ isCPFvalid: value.length === MIN_CPF_LENGTH });
+    }
+  }
+
   render() {
-    const { cart, total } = this.state;
+    const {
+      cart,
+      total,
+      nomeCompleto,
+      email,
+      telefone,
+      cpf,
+      cep,
+      bairro,
+      localidade,
+      logradouro,
+      numero,
+      complemento,
+      uf,
+      payment,
+      isEmailValid,
+      isCPFvalid,
+      isPhoneValid,
+      isCEPinfoDisabled,
+      loading,
+      pedidoConcluido,
+    } = this.state;
+    const { history: { goBack } } = this.props;
+    if (pedidoConcluido) {
+      return (
+        <CompraConcluida
+          cart={ cart }
+          total={ total }
+          nomeCompleto={ nomeCompleto }
+          email={ email }
+          telefone={ telefone }
+          cep={ cep }
+          bairro={ bairro }
+          localidade={ localidade }
+          logradouro={ logradouro }
+          numero={ numero }
+          complemento={ complemento }
+          uf={ uf }
+          payment={ payment }
+        />
+      );
+    }
     return (
       <section>
-        <button type="button">VOLTAR</button>
+        <button
+          type="button"
+          onClick={ goBack }
+        >
+          VOLTAR
+        </button>
         <Review
           cart={ cart }
           total={ total }
         />
-        <BuyerInfo />
-        <Payment />
-        <button type="button">COMPRAR</button>
+        <BuyerInfo
+          nomeCompleto={ nomeCompleto }
+          email={ email }
+          telefone={ telefone }
+          cpf={ cpf }
+          cep={ cep }
+          bairro={ bairro }
+          localidade={ localidade }
+          logradouro={ logradouro }
+          numero={ numero }
+          complemento={ complemento }
+          uf={ uf }
+          isEmailValid={ isEmailValid }
+          isCPFvalid={ isCPFvalid }
+          isPhoneValid={ isPhoneValid }
+          isCEPinfoDisabled={ isCEPinfoDisabled }
+          loading={ loading }
+          handleCPF={ this.handleCPF }
+          handlePhone={ this.handlePhone }
+          handleCEP={ this.handleCEP }
+          handleChange={ this.handleChange }
+        />
+        <Payment handleChange={ this.handleChange } />
+        <button type="button" onClick={ this.handlePurchase }>COMPRAR</button>
       </section>
     );
   }
 }
 
-// Checkout.propTypes = {
-//   prop: PropTypes.prop.isRequired,
-// };
+Checkout.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default Checkout;
