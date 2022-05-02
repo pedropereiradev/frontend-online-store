@@ -16,8 +16,9 @@ class ProductDetailCard extends Component {
 
   componentDidMount() {
     const { productInfos: { id } } = this.props;
+    const { amount } = getQtde(id);
     this.setState({
-      amount: getQtde(id).amount,
+      amount,
     });
   }
 

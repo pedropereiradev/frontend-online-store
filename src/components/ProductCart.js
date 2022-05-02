@@ -10,9 +10,10 @@ class ProductCart extends Component {
 
   componentDidMount() {
     const { product: { price, id } } = this.props;
+    const { amount } = getQtde(id);
     this.setState({
       total: price,
-      amount: getQtde(id).amount,
+      amount,
     });
   }
 
