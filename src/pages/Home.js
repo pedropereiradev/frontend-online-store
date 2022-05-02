@@ -4,7 +4,7 @@ import Categories from '../components/Categories';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Form from '../components/Form';
-import Products from './Products';
+import Products from '../components/Product';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import { setNewCartProduct } from '../services/cartApi';
 import styles from './Home.module.css';
@@ -87,7 +87,6 @@ class Home extends Component {
     const { introMessage, search, isLoading, products,
       noResults, cartStatus } = this.state;
     const { history: { goBack, location: { pathname } } } = this.props;
-
     if (isLoading) return <Loading />;
 
     return (
