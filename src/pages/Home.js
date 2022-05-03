@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Categories from '../components/Categories';
-import Loading from '../components/Loading';
 import Header from '../components/Header';
+import Categories from '../components/Categories';
+import Backdrop from '../components/Backdrop';
+import Loading from '../components/Loading';
 import Form from '../components/Form';
 import Products from '../components/Products';
+import SideDrawer from '../components/SideDrawer';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import { setNewCartProduct } from '../services/cartApi';
 import styles from './Home.module.css';
@@ -26,6 +28,7 @@ class Home extends Component {
       noResults: false,
       cart: [],
       cartStatus: false,
+      sideDrawerState: false,
     };
   }
 
@@ -39,6 +42,7 @@ class Home extends Component {
 
   onSearchButtonClick(event) {
     event.preventDefault();
+
     const { search } = this.state;
     this.setState({ isLoading: true }, async () => {
       const { results } = await getProductsFromCategoryAndQuery(null, search);
@@ -52,6 +56,28 @@ class Home extends Component {
     });
   }
 
+  drawerToggleClickHandler = () => {
+    this.setState(({ sideDrawerState: oldvalue }) => ({
+      sideDrawerState: !oldvalue,
+    }));
+  }
+
+  closeDrawerHandler = () => {
+    this.setState({
+      sideDrawerState: false,
+    });
+  }
+
+  updateCartStatus = () => {
+    this.setState({
+      cartStatus: true,
+    }, () => {
+      this.setState({
+        cartStatus: false,
+      });
+    });
+  }
+
   addToCart(productId) {
     const { products } = this.state;
     const product = products.find(({ id }) => productId === id);
@@ -59,13 +85,7 @@ class Home extends Component {
     this.setState(({ cart }) => ({ cart: [...cart, product] }), () => {
       setNewCartProduct(product);
 
-      this.setState({
-        cartStatus: true,
-      }, () => {
-        this.setState({
-          cartStatus: false,
-        });
-      });
+      this.updateCartStatus();
     });
   }
 
@@ -90,8 +110,23 @@ class Home extends Component {
 
   render() {
     const { introMessage, search, isLoading, products,
-      noResults, cartStatus } = this.state;
+      noResults, cartStatus, sideDrawerState } = this.state;
     const { history: { goBack, location: { pathname } } } = this.props;
+
+    let sideDrawer;
+    let backdrop;
+
+    if (sideDrawerState) {
+      sideDrawer = (
+        <SideDrawer
+          closeSliderHandler={ this.closeDrawerHandler }
+          updateCart={ this.updateCartStatus }
+        />
+      );
+      backdrop = <Backdrop backdropClickHandler={ this.closeDrawerHandler } />;
+    }
+
+    if (isLoading) return <Loading />;
 
     return (
       <section>
@@ -99,7 +134,10 @@ class Home extends Component {
           actualRoute={ pathname }
           goBack={ goBack }
           updateCart={ cartStatus }
+          drawerClickHandler={ this.drawerToggleClickHandler }
         />
+        {sideDrawer}
+        {backdrop}
         <section className={ styles.container }>
           <Categories
             renderProductsByCategory={ this.renderProductsByCategory }
