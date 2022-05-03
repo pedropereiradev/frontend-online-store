@@ -60,7 +60,7 @@
   font-size: 1.7em;
 }
 
-.price button {
+.addtoCartBtn {
   background-color: rgb(0, 132, 255);
   border: none;
   border-radius: 3px;
@@ -71,6 +71,6 @@
   padding: 20px 40px;
 }
 
-.price button:hover {
+.addtoCartBtn:hover {
   background-color: blue;
 }
