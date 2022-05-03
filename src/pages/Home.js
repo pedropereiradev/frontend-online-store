@@ -37,7 +37,8 @@ class Home extends Component {
     this.setState({ search: target.value });
   }
 
-  onSearchButtonClick() {
+  onSearchButtonClick(event) {
+    event.preventDefault();
     const { search } = this.state;
     this.setState({ isLoading: true }, async () => {
       const { results } = await getProductsFromCategoryAndQuery(null, search);
@@ -87,7 +88,6 @@ class Home extends Component {
     const { introMessage, search, isLoading, products,
       noResults, cartStatus } = this.state;
     const { history: { goBack, location: { pathname } } } = this.props;
-    if (isLoading) return <Loading />;
 
     return (
       <section>
@@ -106,12 +106,16 @@ class Home extends Component {
               handleChange={ this.handleChange }
               onSearchButtonClick={ this.onSearchButtonClick }
             />
-            <Products
-              introMessage={ introMessage }
-              noResults={ noResults }
-              products={ products }
-              addToCart={ this.addToCart }
-            />
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <Products
+                introMessage={ introMessage }
+                noResults={ noResults }
+                products={ products }
+                addToCart={ this.addToCart }
+              />
+            )}
           </section>
         </section>
       </section>

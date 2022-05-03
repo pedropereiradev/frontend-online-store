@@ -17,7 +17,7 @@ class Form extends Component {
           data-testid="query-input"
         />
         <button
-          type="button"
+          type="submit"
           name="onSearchButtonClick"
           onClick={ onSearchButtonClick }
           data-testid="query-button"
