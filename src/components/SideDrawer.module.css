@@ -1,0 +1,65 @@
+.cart {
+  color: white;
+  font-size: 25px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.cartContainer {
+  height: 100%;
+}
+
+.cartEmpty {
+  height: 20px;
+  text-align: center;
+}
+
+.closeDrawer {
+  background-color: black;
+  color: white;
+  display: inline-block;
+  font-size: 50px;
+  height: 55px;
+  text-align: center;
+  vertical-align: middle;
+  width: 50px;
+}
+
+.closeDrawer:hover {
+  cursor: pointer;
+}
+
+.drawerContainer {
+  display: flex;
+  height: 100%;
+  justify-content: flex-end;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 500px;
+  z-index: 200;
+}
+
+.emptyContainer {
+  align-items: center;
+  display: flex;
+  height: 600px;
+  justify-content: center;
+}
+
+.productsContainer {
+  height: 600px;
+  margin-top: 30px;
+  overflow-y: scroll;
+}
+
+.sideDrawer {
+  background-color: black;
+  box-shadow: 2px none 5px rgba(0, 0, 0, 0.5);
+  color: white;
+  height: 100%;
+  padding: 15px;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
