@@ -40,7 +40,9 @@ class Home extends Component {
     this.setState({ search: target.value });
   }
 
-  onSearchButtonClick() {
+  onSearchButtonClick(event) {
+    event.preventDefault();
+
     const { search } = this.state;
     this.setState({ isLoading: true }, async () => {
       const { results } = await getProductsFromCategoryAndQuery(null, search);

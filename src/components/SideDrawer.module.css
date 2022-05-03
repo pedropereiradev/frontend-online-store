@@ -5,8 +5,13 @@
   text-decoration: none;
 }
 
-.cart:hover {
-  text-decoration: underline;
+.cartContainer {
+  height: 100%;
+}
+
+.cartEmpty {
+  height: 20px;
+  text-align: center;
 }
 
 .closeDrawer {
@@ -33,6 +38,19 @@
   top: 0;
   width: 500px;
   z-index: 200;
+}
+
+.emptyContainer {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 600px;
+}
+
+.productsContainer {
+  height: 600px;
+  overflow-y: scroll;
+  margin-top: 30px;
 }
 
 .sideDrawer {

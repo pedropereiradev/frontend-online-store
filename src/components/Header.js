@@ -58,6 +58,7 @@ class Header extends React.Component {
         )}
         <div className={ styles.cart }>
           <button
+            data-testid="shopping-cart-button"
             type="button"
             onClick={ drawerClickHandler }
           >

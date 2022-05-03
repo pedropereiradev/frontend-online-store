@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import BntCarrinho from './BntCarrinho';
 import ProductCart from './ProductCart';
 import style from './SideDrawer.module.css';
 import { getCartProducts, removeCartItem } from '../services/cartApi';
@@ -16,10 +16,10 @@ class SideDrawer extends Component {
   }
 
   componentDidMount() {
-    const cartItems = getCartProducts();
+    const products = getCartProducts();
 
     this.setState({
-      products: [...cartItems],
+      products,
       getAllCartProducts: true,
     });
   }
@@ -40,6 +40,7 @@ class SideDrawer extends Component {
 
     return (
       <div className={ style.drawerContainer }>
+
         <div
           className={ style.closeDrawer }
           onClick={ closeSliderHandler }
@@ -51,20 +52,43 @@ class SideDrawer extends Component {
         </div>
         <div className={ style.sideDrawer }>
           <div>
-            <BntCarrinho />
-            <section>
-              {
-                getAllCartProducts && (
-                  products.map((product) => (
-                    <ProductCart
-                      key={ product.id }
-                      product={ product }
-                      handleClick={ this.handleClick }
-                    />
-                  ))
-                )
-              }
-            </section>
+            <h2>Carrinho de Compras</h2>
+            {
+              !products.length ? (
+                <div
+                  className={ style.emptyContainer }
+                >
+                  <p
+                    data-testid="shopping-cart-empty-message"
+                    className={ style.cartEmpty }
+                  >
+                    Seu carrinho está vazio
+                  </p>
+                </div>
+              ) : (
+                <div>
+                  <section className={ style.productsContainer }>
+                    {
+                      getAllCartProducts && (
+                        products.map((product) => (
+                          <ProductCart
+                            key={ product.id }
+                            product={ product }
+                            handleClick={ this.handleClick }
+                          />
+                        ))
+                      )
+                    }
+                  </section>
+                  <Link
+                    to="/checkout"
+                    data-testid="checkout-products"
+                  >
+                    Finalizar compra
+                  </Link>
+                </div>
+              )
+            }
           </div>
         </div>
       </div>
