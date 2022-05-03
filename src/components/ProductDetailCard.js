@@ -110,7 +110,7 @@ class ProductDetailCard extends Component {
             </button>
           </span>
           <section>
-            <p>{`R$: ${this.getPriceTimesAmount(productInfos.id)}`}</p>
+            <p>{`R$: ${this.getPriceTimesAmount(productInfos.id).toFixed(2)}`}</p>
             {productInfos.shipping.free_shipping && (
               <span data-testid="free-shipping">Frete Grátis</span>
             )}
