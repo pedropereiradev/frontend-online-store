@@ -81,13 +81,13 @@ class ProductDetailCard extends Component {
             </ul>
           </div>
         </section>
-        </div>
         <section className={ styles.price }>
           <button
             type="button"
             onClick={ () => addToCart(productInfos) }
             data-testid="product-detail-add-to-cart"
             disabled={ isBtnAddCartDisabled }
+            className={ styles.addtoCartBtn }
           >
             Adicionar ao carrinho
           </button>
@@ -113,7 +113,7 @@ class ProductDetailCard extends Component {
             {productInfos.shipping.free_shipping && (
               <span data-testid="free-shipping">Frete Grátis</span>
             )}
-           </section>
+          </section>
         </section>
       </section>
     );
