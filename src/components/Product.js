@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
 import { getCartProducts } from '../services/cartApi';
 import styles from './Products.module.css';
 
@@ -23,14 +22,6 @@ class Product extends Component {
   render() {
     const { product, addToCart } = this.props;
     const { inCart } = this.state;
-=======
-import styles from '../pages/Products.module.css';
-
-class Product extends Component {
-  render() {
-    const { product, addToCart } = this.props;
-
->>>>>>> main-group-26-add-slide-panel-do-carrinho
     return (
       <li data-testid="product">
         <Link
