@@ -69,17 +69,21 @@ class Home extends Component {
     });
   }
 
-  async renderProductsByCategory({ target: { id } }) {
-    const { results } = await getProductsFromCategoryAndQuery(id);
-    if (!results) this.setState({ noResults: true });
-    this.setState({
-      isLoading: true,
-      products: results,
-      introMessage: false,
-      search: '',
-    }, () => {
+  renderProductsByCategory({ target: { id } }) {
+    this.setState({ isLoading: true }, async () => {
+      const { results } = await getProductsFromCategoryAndQuery(id);
+
+      if (!results) this.setState({ noResults: true });
+
       this.setState({
-        isLoading: false,
+        isLoading: true,
+        products: results,
+        introMessage: false,
+        search: '',
+      }, () => {
+        this.setState({
+          isLoading: false,
+        });
       });
     });
   }
