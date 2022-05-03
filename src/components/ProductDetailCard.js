@@ -23,10 +23,9 @@ class ProductDetailCard extends Component {
     });
   }
 
-  disableButton() {
-    this.setState(({ amount: prevAmount }) => ({
-      isBtnAddCartDisabled: prevAmount === 0,
-    }));
+  getPriceTimesAmount(id) {
+    const { price } = this.props;
+    return getQtde(id).amount * price;
   }
 
   updateAmount({ target: { name } }) {
@@ -51,6 +50,12 @@ class ProductDetailCard extends Component {
     }
   }
 
+  disableButton() {
+    this.setState(({ amount: prevAmount }) => ({
+      isBtnAddCartDisabled: prevAmount === 0,
+    }));
+  }
+
   render() {
     const {
       productInfos,
@@ -58,15 +63,11 @@ class ProductDetailCard extends Component {
       pictures,
       attributes,
       addToCart,
-      price,
     } = this.props;
     const { amount, isBtnAddCartDisabled } = this.state;
     return (
       <section className={ styles.container }>
         <h2 data-testid="product-detail-name">{title}</h2>
-        {/* {productInfos.shipping.free_shipping && (
-          <span data-testid="free-shipping">Frete Grátis</span>
-        )} */}
         <section className={ styles.description }>
           <img src={ pictures } alt={ `imagem de : ${title}` } />
           <div>
@@ -109,7 +110,7 @@ class ProductDetailCard extends Component {
             </button>
           </span>
           <section>
-            <p>{`R$: ${price}`}</p>
+            <p>{`R$: ${this.getPriceTimesAmount(productInfos.id)}`}</p>
             {productInfos.shipping.free_shipping && (
               <span data-testid="free-shipping">Frete Grátis</span>
             )}
