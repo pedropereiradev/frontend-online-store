@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getQtde } from '../services/cartApi';
+import styles from './Review.module.css';
 
 class Review extends Component {
   getExactPrice(id, price) {
@@ -10,24 +11,31 @@ class Review extends Component {
   render() {
     const { cart, total } = this.props;
     return (
-      <span>
-        <p>Revise seus produtos</p>
-        {
-          cart.map(({ id, price, thumbnail, title }, index) => (
-            <span key={ `${id}${index}` }>
-              <p>{ title }</p>
-              <img
-                src={ thumbnail }
-                alt={ `produto ${title}` }
-              />
-              <span>
-                <p>{ `Quantidade: ${getQtde(id).amount}` }</p>
-                <p>{ `R$ ${this.getExactPrice(id, price).toFixed(2)}` }</p>
+      <span className={ styles.review }>
+        <p className={ styles.mainTitle }>Revise sua compra</p>
+        <span className={ styles.content }>
+          {
+            cart.map(({ id, price, thumbnail, title }, index) => (
+              <span
+                key={ `${id}${index}` }
+                className={ styles.card }
+              >
+                <span className={ styles.img }>
+                  <img
+                    src={ thumbnail }
+                    alt={ `produto ${title}` }
+                  />
+                </span>
+                <span className={ styles.info }>
+                  <p className={ styles.title }>{ title }</p>
+                  <p>{ `Quantidade: ${getQtde(id).amount}` }</p>
+                  <p>{ `R$ ${this.getExactPrice(id, price).toFixed(2)}` }</p>
+                </span>
               </span>
-            </span>
-          ))
-        }
-        <p>{ `Valor total: R$ ${total.toFixed(2)}` }</p>
+            ))
+          }
+        </span>
+        <p className={ styles.finalValue }>{ `Valor total: R$ ${total.toFixed(2)}` }</p>
       </span>
     );
   }

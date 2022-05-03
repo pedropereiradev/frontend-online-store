@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Loading from './Loading';
+import styles from './BuyerInfo.module.css';
 
 class BuyerInfo extends Component {
   render() {
@@ -28,9 +29,9 @@ class BuyerInfo extends Component {
     } = this.props;
     if (loading) return <Loading />;
     return (
-      <section>
-        <p>Informações do comprador</p>
-        <span>
+      <section className={ styles.buyerinfo }>
+        <p className={ styles.mainTitle }>Dados para entrega</p>
+        <span className={ styles.dadosPessoais }>
           <label htmlFor="nomeCompleto">
             Nome completo
             <input
@@ -96,6 +97,8 @@ class BuyerInfo extends Component {
                 : <p style={ { color: 'red' } }>Telefone inválido</p>
             )}
           </label>
+        </span>
+        <span className={ styles.dadosEntrega }>
           <label htmlFor="cep">
             CEP
             <input
