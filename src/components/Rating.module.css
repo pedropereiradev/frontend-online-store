@@ -1,0 +1,46 @@
+.container input {
+  display: none;
+}
+
+.superSadImg, .sadImg, .neutralImg, .happyImg, .superHappyImg {
+cursor: pointer;
+display: inline-block;
+height: 25px;
+width: 25px;
+}
+
+.superSadImg {
+  background: url('../assets/rate1.svg') no-repeat;
+}
+.sadImg {
+  background: url('../assets/rate2.svg') no-repeat;
+}
+.neutralImg {
+  background: url('../assets/rate3.svg') no-repeat;
+}
+.happyImg {
+  background: url('../assets/rate4.svg') no-repeat;
+}
+.superHappyImg {
+  background: url('../assets/rate5.svg') no-repeat;
+}
+
+.container input:checked~.superSadImg, .container input:hover~.superSadImg {
+  background: url('../assets/rate1Checked.svg') no-repeat;
+}
+
+.container input:checked~.sadImg, .container input:hover~.sadImg {
+  background: url('../assets/rate2Checked.svg') no-repeat;
+}
+
+.container input:checked~.neutralImg, .container input:hover~.neutralImg {
+  background: url('../assets/rate3Checked.svg') no-repeat;
+}
+
+.container input:checked~.happyImg, .container input:hover~.happyImg {
+  background: url('../assets/rate4Checked.svg') no-repeat;
+}
+
+.container input:checked~.superHappyImg, .container input:hover~.superHappyImg {
+  background: url('../assets/rate5Checked.svg') no-repeat;
+}
