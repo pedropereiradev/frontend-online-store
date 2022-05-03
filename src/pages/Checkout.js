@@ -7,6 +7,7 @@ import { cleanCart, getCartProducts, getQtde } from '../services/cartApi';
 import getCepInfo from '../services/cepApi';
 import { eightNumberPhone, formatCpf, nineNumberPhone } from '../services/infoApi';
 import CompraConcluida from '../components/CompraConcluida';
+import styles from './Checkout.module.css';
 
 class Checkout extends Component {
   constructor() {
@@ -165,12 +166,13 @@ class Checkout extends Component {
       );
     }
     return (
-      <section>
+      <section className={ styles.container }>
         <button
           type="button"
           onClick={ goBack }
+          className={ styles.voltar }
         >
-          VOLTAR
+          Voltar para o carrinho
         </button>
         <Review
           cart={ cart }
@@ -199,7 +201,13 @@ class Checkout extends Component {
           handleChange={ this.handleChange }
         />
         <Payment handleChange={ this.handleChange } />
-        <button type="button" onClick={ this.handlePurchase }>COMPRAR</button>
+        <button
+          type="button"
+          onClick={ this.handlePurchase }
+          className={ styles.comprar }
+        >
+          COMPRAR
+        </button>
       </section>
     );
   }

@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.voltar {
+  background-color: lightcyan;
+  border: 1px solid lightblue;
+  border-radius: 10px;
+  font-weight: 700;
+  height: 50px;
+}
+
+.voltar:hover {
+  cursor: pointer;
+}
+
+.comprar {
+  background-color: lightcyan;
+  border: 1px solid lightblue;
+  border-radius: 10px;
+  font-size: larger;
+  font-weight: 700;
+  height: 50px;
+}
+
+.comprar:hover {
+  background-color: greenyellow;
+  border: none;
+  cursor: pointer;
+}
