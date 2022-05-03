@@ -29,8 +29,6 @@ class BntCarrinho extends React.Component {
   shouldUpdateCartQtd = () => {
     const { updateCart } = this.props;
 
-    console.log(updateCart);
-
     if (updateCart) {
       const qtd = getCartProducts().length;
 

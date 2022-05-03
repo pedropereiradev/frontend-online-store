@@ -6,7 +6,6 @@ import styles from './Products.module.css';
 class Products extends Component {
   render() {
     const { introMessage, noResults, products, addToCart } = this.props;
-
     if (introMessage) {
       return (
         <h1 data-testid="home-initial-message">

@@ -50,5 +50,9 @@ export function updateQtde(id, amount) {
 
 export function getQtde(id) {
   const items = JSON.parse(localStorage.getItem('qtde'));
-  return items.find(({ id: productId }) => productId === id);
+  const element = items.find(({ id: productId }) => productId === id);
+  if (!element || !items.length) {
+    return { amount: 1 };
+  }
+  return element;
 }
