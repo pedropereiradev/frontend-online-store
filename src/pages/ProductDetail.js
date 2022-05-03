@@ -31,7 +31,6 @@ class ProductDetail extends Component {
       },
     } = this.props;
     const productDetails = await api.getProductFromId(id);
-
     this.setState({
       productInfos: { ...productDetails },
       isloading: false,
@@ -52,10 +51,12 @@ class ProductDetail extends Component {
 
   render() {
     const {
-      history: { goBack, location: { pathname } } } = this.props;
+      history: { goBack, location: { pathname } },
+      match: { params: { id } },
+    } = this.props;
     const {
       productInfos,
-      productInfos: { thumbnail, title, attributes },
+      productInfos: { pictures, title, attributes, price },
       isloading,
       cartStatus,
     } = this.state;
@@ -74,11 +75,12 @@ class ProductDetail extends Component {
             <ProductDetailCard
               productInfos={ productInfos }
               title={ title }
-              thumbnail={ thumbnail }
+              pictures={ pictures[0].url }
               attributes={ attributes }
+              price={ price }
               addToCart={ this.addToCart }
             />
-            <Avaliation />
+            <Avaliation id={ id } />
           </section>
         )}
       </main>
