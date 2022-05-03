@@ -1,0 +1,50 @@
+.container {
+  margin: 50px;
+}
+
+.container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.container section {
+  align-items: center;
+  display: flex;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.container section input {
+  border: 1px solid gainsboro;
+  border-radius: 3px;
+  margin-right: 50px;
+  outline: none;
+  padding: 12px 10px;
+  width: 250px;
+}
+
+.container textarea {
+  border: 1px solid gainsboro;
+  border-radius: 3px;
+  height: 150px;
+  margin-bottom: 15px;
+  resize: none;
+  width: 450px;
+}
+
+.container button {
+  align-self: center;
+  background-color: rgb(0, 132, 255);
+  border: none;
+  border-radius: 3px;
+  box-shadow: 3px 3px 9px 0 rgba(0, 0, 0, 0.35);
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  margin-bottom: 10px;
+  padding: 30px 100px;
+}
+
+.container button:hover {
+  background-color: blue;
+}

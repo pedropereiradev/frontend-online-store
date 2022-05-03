@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styles from './ProductDetailCard.module.css';
 import { getQtde, updateQtde } from '../services/cartApi';
 
 class ProductDetailCard extends Component {
@@ -54,57 +55,66 @@ class ProductDetailCard extends Component {
     const {
       productInfos,
       title,
-      thumbnail,
+      pictures,
       attributes,
       addToCart,
+      price,
     } = this.props;
     const { amount, isBtnAddCartDisabled } = this.state;
     return (
-      <section>
+      <section className={ styles.container }>
         <h2 data-testid="product-detail-name">{title}</h2>
-        {productInfos.shipping.free_shipping && (
-          <span data-testid="free-shipping">Frete Gratis</span>
-        )}
-        <div>
-          <img src={ thumbnail } alt={ `imagem de : ${title}` } />
+        {/* {productInfos.shipping.free_shipping && (
+          <span data-testid="free-shipping">Frete Grátis</span>
+        )} */}
+        <section className={ styles.description }>
+          <img src={ pictures } alt={ `imagem de : ${title}` } />
           <div>
+            <h2>Especificações:</h2>
             <ul>
               {attributes.map(({ id, name, value_name: value }) => (
-                <li
-                  key={ id }
-                >
-                  <h3>{name === null ? '-' : name}</h3>
-                  <p>{ value === null ? '-' : value }</p>
+                <li key={ id }>
+                  <h3>{name === null ? '-' : `${name}:`}</h3>
+                  <p>{value === null ? '-' : value}</p>
                 </li>
               ))}
             </ul>
           </div>
+        </section>
         </div>
-        <button
-          type="button"
-          onClick={ () => addToCart(productInfos) }
-          data-testid="product-detail-add-to-cart"
-          disabled={ isBtnAddCartDisabled }
-        >
-          Adicionar ao carrinho
-        </button>
-        <span>
+        <section className={ styles.price }>
           <button
             type="button"
-            name="down"
-            onClick={ this.updateAmount }
+            onClick={ () => addToCart(productInfos) }
+            data-testid="product-detail-add-to-cart"
+            disabled={ isBtnAddCartDisabled }
           >
-            -
+            Adicionar ao carrinho
           </button>
-          <p>{ `Quantidade: ${amount}` }</p>
-          <button
-            type="button"
-            name="up"
-            onClick={ this.updateAmount }
-          >
-            +
-          </button>
-        </span>
+          <span>
+            <button
+              type="button"
+              name="down"
+              onClick={ this.updateAmount }
+            >
+              -
+            </button>
+            <p>{ `Quantidade: ${amount}` }</p>
+            <button
+              type="button"
+              name="up"
+              onClick={ this.updateAmount }
+            >
+              +
+            </button>
+          </span>
+          <section>
+            <p>{`R$: ${price}`}</p>
+            {productInfos.shipping.free_shipping && (
+              <span data-testid="free-shipping">Frete Grátis</span>
+            )}
+           </section>
+        </section>
       </section>
     );
   }
@@ -112,7 +122,8 @@ class ProductDetailCard extends Component {
 
 ProductDetailCard.propTypes = {
   title: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
+  pictures: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
   attributes: PropTypes.arrayOf(PropTypes.any).isRequired,
   addToCart: PropTypes.func.isRequired,
   productInfos: PropTypes.objectOf(PropTypes.any).isRequired,
