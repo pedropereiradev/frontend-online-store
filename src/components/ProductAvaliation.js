@@ -1,22 +1,57 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styles from './ProductAvaliation.module.css';
+import rate1 from '../assets/rate1Checked.svg';
+import rate2 from '../assets/rate2Checked.svg';
+import rate3 from '../assets/rate3Checked.svg';
+import rate4 from '../assets/rate4Checked.svg';
+import rate5 from '../assets/rate5Checked.svg';
 
 class ProductAvaliation extends Component {
   render() {
-    const { rates } = this.props;
+    const { rates, id } = this.props;
 
-    return !rates.length ? (
-      <h2>Faça a primeira avaliação</h2>
+    const ratesById = rates.filter((rate) => rate.id === id);
+
+    return !ratesById.length ? (
+      <h2 className={ styles.empty }>Faça a primeira avaliação</h2>
     ) : (
-      <section>
+      <section className={ styles.container }>
         <ul>
-          {rates.map(({ email, evaluation, rate }, index) => (
-            <li key={ index }>
-              <span>{email || 'Não identificado'}</span>
-              <span>{`Nota : ${rate}`}</span>
-              {evaluation && <div>{evaluation}</div>}
-            </li>
-          ))}
+          {rates
+            .filter((rate) => rate.id === id)
+            .map(({ email, evaluation, rate }, index) => {
+              let rateImage;
+
+              switch (rate) {
+              case '1':
+                rateImage = rate1;
+                break;
+              case '2':
+                rateImage = rate2;
+                break;
+              case '3':
+                rateImage = rate3;
+                break;
+              case '4':
+                rateImage = rate4;
+                break;
+              case '5':
+                rateImage = rate5;
+                break;
+              default: rateImage = rate5;
+              }
+
+              return (
+                <li key={ index }>
+                  <section>
+                    <span>{email || 'Não identificado'}</span>
+                    <span><img src={ rateImage } alt={ `Nota: ${rate}` } /></span>
+                  </section>
+                  {evaluation && <div>{evaluation}</div>}
+                </li>
+              );
+            })}
         </ul>
       </section>
     );
@@ -25,6 +60,7 @@ class ProductAvaliation extends Component {
 
 ProductAvaliation.propTypes = {
   rates: PropTypes.arrayOf(PropTypes.object).isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default ProductAvaliation;
