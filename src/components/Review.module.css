@@ -1,0 +1,53 @@
+.review {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.content {
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.card {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.card img {
+  height: 100px;
+  margin-left: 20px;
+}
+
+.img {
+  flex-grow: 0;
+  margin-left: 50px;
+  min-width: 150px;
+}
+
+.info {
+  flex-grow: 2;
+  margin-left: 10%;
+}
+
+.title {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.mainTitle {
+  font-size: xx-large;
+  font-weight: 700;
+}
+
+.finalValue {
+  align-self: flex-end;
+  font-size: x-large;
+  font-weight: 700;
+  margin-right: 30px;
+}

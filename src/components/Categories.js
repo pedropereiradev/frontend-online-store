@@ -4,6 +4,8 @@ import * as api from '../services/api';
 import styles from './Categories.module.css';
 
 class Categories extends Component {
+  hasMounted = false;
+
   constructor() {
     super();
 
@@ -16,12 +18,22 @@ class Categories extends Component {
     this.getCategoriesFromAPI();
   }
 
+  componentDidUpdate() {
+    this.hasMounted = true;
+  }
+
+  componentWillUnmount() {
+    this.hasMounted = false;
+  }
+
   getCategoriesFromAPI = async () => {
     const categoriesReceived = await api.getCategories();
 
-    this.setState({
-      categories: [...categoriesReceived],
-    });
+    if (this.hasMounted) {
+      this.setState({
+        categories: [...categoriesReceived],
+      });
+    }
   }
 
   render() {
