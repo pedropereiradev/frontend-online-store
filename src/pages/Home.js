@@ -10,6 +10,8 @@ import SideDrawer from '../components/SideDrawer';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import { setNewCartProduct } from '../services/cartApi';
 import styles from './Home.module.css';
+import { sortLowerToHigher, sortHigherToLower } from '../services/order';
+import SelectedOrder from '../components/SelectedOrder';
 
 class Home extends Component {
   constructor() {
@@ -55,6 +57,15 @@ class Home extends Component {
       });
     });
   }
+
+  handleChangeSelect = ({ target }) => {
+    const { products } = this.state;
+    if (target.value === 'Menos') {
+      this.setState({ products: sortLowerToHigher(products) });
+    } else if (target.value === 'Maior') {
+      this.setState({ products: sortHigherToLower(products) });
+    }
+  };
 
   drawerToggleClickHandler = () => {
     this.setState(({ sideDrawerState: oldvalue }) => ({
@@ -143,11 +154,16 @@ class Home extends Component {
             renderProductsByCategory={ this.renderProductsByCategory }
           />
           <section className={ styles.productsSection }>
-            <Form
-              search={ search }
-              handleChange={ this.handleChange }
-              onSearchButtonClick={ this.onSearchButtonClick }
-            />
+            <div>
+              <Form
+                search={ search }
+                handleChange={ this.handleChange }
+                onSearchButtonClick={ this.onSearchButtonClick }
+              />
+              <SelectedOrder
+                handleChangeSelect={ this.handleChangeSelect }
+              />
+            </div>
             {isLoading ? (
               <Loading />
             ) : (
