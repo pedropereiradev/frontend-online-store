@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import BntCarrinho from './BntCarrinho';
 import logo from '../assets/logo.svg';
 import cartIcon from '../assets/cartIcon.svg';
 import styles from './Header.module.css';
@@ -41,7 +40,8 @@ class Header extends React.Component {
   }
 
   render() {
-    const { updateCart } = this.props;
+    const { drawerClickHandler } = this.props;
+    const { productQtd } = this.state;
 
     return (
       <header className={ styles.header }>
@@ -51,25 +51,6 @@ class Header extends React.Component {
             <h1>Trybe Store</h1>
           </section>
         </Link>
-        <BntCarrinho updateCart={ updateCart } />
-
-    const { actualRoute, goBack, drawerClickHandler } = this.props;
-    const { productQtd } = this.state;
-
-    return (
-      <header className={ styles.header }>
-        <section className={ styles.logo }>
-          <img src={ logo } alt="logo" />
-          <h1>Trybe Store</h1>
-        </section>
-        {actualRoute !== '/' && (
-          <button
-            type="button"
-            onClick={ goBack }
-          >
-            Voltar
-          </button>
-        )}
         <div className={ styles.cart }>
           <button
             data-testid="shopping-cart-button"

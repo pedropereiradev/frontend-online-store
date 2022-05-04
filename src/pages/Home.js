@@ -137,8 +137,6 @@ class Home extends Component {
       backdrop = <Backdrop backdropClickHandler={ this.closeDrawerHandler } />;
     }
 
-    if (isLoading) return <Loading />;
-
     return (
       <section>
         <Header
