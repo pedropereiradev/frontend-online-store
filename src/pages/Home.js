@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Categories from '../components/Categories';
 import Backdrop from '../components/Backdrop';
@@ -122,7 +121,6 @@ class Home extends Component {
   render() {
     const { introMessage, search, isLoading, products,
       noResults, cartStatus, sideDrawerState } = this.state;
-    const { history: { goBack, location: { pathname } } } = this.props;
 
     let sideDrawer;
     let backdrop;
@@ -140,8 +138,6 @@ class Home extends Component {
     return (
       <section>
         <Header
-          actualRoute={ pathname }
-          goBack={ goBack }
           updateCart={ cartStatus }
           drawerClickHandler={ this.drawerToggleClickHandler }
         />
@@ -178,14 +174,5 @@ class Home extends Component {
     );
   }
 }
-
-Home.propTypes = {
-  history: PropTypes.shape({
-    goBack: PropTypes.func.isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-};
 
 export default Home;

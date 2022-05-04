@@ -69,7 +69,6 @@ class ProductDetail extends Component {
 
   render() {
     const {
-      history: { goBack, location: { pathname } },
       match: { params: { id } },
     } = this.props;
     const {
@@ -96,8 +95,6 @@ class ProductDetail extends Component {
     return (
       <main>
         <Header
-          actualRoute={ pathname }
-          goBack={ goBack }
           updateCart={ cartStatus }
           drawerClickHandler={ this.drawerToggleClickHandler }
         />
@@ -124,12 +121,6 @@ class ProductDetail extends Component {
 }
 
 ProductDetail.propTypes = {
-  history: PropTypes.shape({
-    goBack: PropTypes.func.isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
