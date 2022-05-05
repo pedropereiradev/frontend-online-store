@@ -8,7 +8,7 @@ class SelectedOrder extends Component {
     return (
       <select className={ styles.select } onChange={ handleChangeSelect }>
         <option>Order</option>
-        <option>Menos</option>
+        <option>Menor</option>
         <option>Maior</option>
       </select>
     );
