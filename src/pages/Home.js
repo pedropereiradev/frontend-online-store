@@ -59,7 +59,7 @@ class Home extends Component {
 
   handleChangeSelect = ({ target }) => {
     const { products } = this.state;
-    if (target.value === 'Menos') {
+    if (target.value === 'Menor') {
       this.setState({ products: sortLowerToHigher(products) });
     } else if (target.value === 'Maior') {
       this.setState({ products: sortHigherToLower(products) });

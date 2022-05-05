@@ -27,6 +27,6 @@
 
 .comprar:hover {
   background-color: greenyellow;
-  border: none;
+  border: 1px solid greenyellow;
   cursor: pointer;
 }
