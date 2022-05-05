@@ -42,24 +42,24 @@ class Categories extends Component {
     return (
       <aside className={ styles.content }>
         <h2>Categorias</h2>
-        <div>
-          <ul>
-            {categories.map(({ id, name }) => (
-              <li
-                key={ id }
-              >
-                <label htmlFor={ id } data-testid="category">
-                  <input
-                    type="radio"
-                    name="categories"
-                    onChange={ renderProductsByCategory }
-                    id={ id }
-                  />
-                  { name }
-                </label>
-              </li>
-            ))}
-          </ul>
+        <div className={ styles.categories_div }>
+          {categories.map(({ id, name }) => (
+            <label
+              key={ id }
+              htmlFor={ id }
+              data-testid="category"
+              className={ styles.category }
+            >
+              <input
+                type="radio"
+                name="categories"
+                onChange={ renderProductsByCategory }
+                id={ id }
+                className={ styles.category_input }
+              />
+              <span>{ name }</span>
+            </label>
+          ))}
         </div>
       </aside>
     );

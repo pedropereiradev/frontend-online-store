@@ -5,9 +5,7 @@
   display: flex;
   flex-direction: column;
   margin-right: 50px;
-  padding: 10px 25px;
-
-  /* border: 1px solid red; */
+  padding: 20px;
   width: 400px;
 }
 
@@ -16,6 +14,37 @@
   margin-bottom: 12px;
 }
 
-.content li {
-  margin-bottom: 18px;
+.category {
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+}
+
+.category span {
+  padding: 10px;
+  width: 100%;
+}
+
+.category_input {
+  display: none;
+}
+
+.category_input:checked + span {
+  background-color: gray;
+  border-radius: 5px;
+  color: white;
+}
+
+.category:hover {
+  border-radius: 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+  outline: 1px solid lightgray;
+  outline-offset: -1px;
+}
+
+.categories_div {
+  display: flex;
+  flex-flow: column;
 }
