@@ -57,7 +57,38 @@ class Checkout extends Component {
   }
 
   handlePurchase() {
-    this.setState({ pedidoConcluido: true });
+    const {
+      nomeCompleto,
+      email,
+      telefone,
+      cpf,
+      cep,
+      bairro,
+      localidade,
+      logradouro,
+      numero,
+      complemento,
+      uf,
+      payment,
+    } = this.state;
+    if (
+      nomeCompleto !== ''
+      && email !== ''
+      && telefone !== ''
+      && cpf !== ''
+      && cep !== ''
+      && bairro !== ''
+      && localidade !== ''
+      && logradouro !== ''
+      && numero !== ''
+      && complemento !== ''
+      && uf !== ''
+      && payment !== ''
+    ) {
+      this.setState({ pedidoConcluido: true });
+    } else {
+      alert('Por favor, preencha todo o formulário');
+    }
   }
 
   handleCPF(event) {
@@ -149,8 +180,6 @@ class Checkout extends Component {
     if (pedidoConcluido) {
       return (
         <CompraConcluida
-          cart={ cart }
-          total={ total }
           nomeCompleto={ nomeCompleto }
           email={ email }
           telefone={ telefone }
