@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { getQtde } from '../services/cartApi';
+import styles from './CompraConcluida.module.css';
+import concluido from '../assets/concluido.webp';
 
 class CompraConcluida extends Component {
   render() {
     const {
-      cart,
-      total,
       nomeCompleto,
       email,
       telefone,
@@ -21,38 +20,46 @@ class CompraConcluida extends Component {
       payment,
     } = this.props;
     return (
-      <span>
-        <p>{ `Parabéns ${nomeCompleto}, compra realizada com sucesso!` }</p>
-        <p>{ `Mais detalhes do pedido foram enviados para "${email}"` }</p>
-        <p>Resumo do pedido:</p>
-        <span>
-          {
-            cart.map(({ title, thumbnail, id }) => (
-              <span key={ title }>
-                <p key={ title }>{ title }</p>
-                <img src={ thumbnail } alt={ `produto ${title}` } />
-                <p>{ `Quantidade: ${getQtde(id).amount}` }</p>
-              </span>
-            ))
-          }
-          <span>
+      <span className={ styles.container }>
+        <span className={ styles.box }>
+          <img
+            src={ concluido }
+            alt="símbolo de concluído"
+          />
+          <p
+            className={ styles.title_one }
+          >
+            { `Obrigado ${nomeCompleto}, compra realizada com sucesso!` }
+          </p>
+          <p
+            className={ styles.title_two }
+          >
+            { `Mais detalhes do pedido foram enviados para ${email}` }
+          </p>
+          <span className={ styles.address }>
             <p>Endereço de entrega:</p>
             <p>{ `${logradouro}, n° ${numero}, ${complemento}. ${cep}` }</p>
             <p>{ `${bairro}, ${localidade} - ${uf}` }</p>
             <p>{ `Telefone para contato: ${telefone}` }</p>
           </span>
-          <p>{ `Forma de pagamento: ${payment}` }</p>
+          <p
+            className={ styles.payment }
+          >
+            { `Forma de pagamento: ${payment}` }
+          </p>
         </span>
-        <p>{ `Valor final da compra: R$ ${total.toFixed(2)}` }</p>
-        <Link to="/">Voltar para a página incial</Link>
+        <Link
+          to="/"
+          className={ styles.link }
+        >
+          Voltar para a página incial
+        </Link>
       </span>
     );
   }
 }
 
 CompraConcluida.propTypes = {
-  cart: PropTypes.arrayOf(PropTypes.any).isRequired,
-  total: PropTypes.number.isRequired,
   nomeCompleto: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   telefone: PropTypes.string.isRequired,
