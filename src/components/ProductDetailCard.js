@@ -83,34 +83,31 @@ class ProductDetailCard extends Component {
           </div>
         </section>
         <section className={ styles.price }>
-          <button
-            type="button"
-            onClick={ () => addToCart(productInfos) }
-            data-testid="product-detail-add-to-cart"
-            disabled={ isBtnAddCartDisabled }
-            className={ styles.addtoCartBtn }
-          >
-            Adicionar ao carrinho
-          </button>
-          <span>
-            <button
-              type="button"
-              name="down"
-              onClick={ this.updateAmount }
-            >
-              -
-            </button>
-            <p>{ `Quantidade: ${amount}` }</p>
-            <button
-              type="button"
-              name="up"
-              onClick={ this.updateAmount }
-            >
-              +
-            </button>
-          </span>
           <section>
-            <p>{`R$: ${this.getPriceTimesAmount(productInfos.id).toFixed(2)}`}</p>
+            <p>Quantidade:</p>
+            <span className={ styles.amount }>
+              <button type="button" name="down" onClick={ this.updateAmount }>
+                -
+              </button>
+              <p>{amount}</p>
+              <button type="button" name="up" onClick={ this.updateAmount }>
+                +
+              </button>
+            </span>
+          </section>
+          <section className={ styles.btnSection }>
+            <button
+              type="button"
+              onClick={ () => addToCart(productInfos) }
+              data-testid="product-detail-add-to-cart"
+              disabled={ isBtnAddCartDisabled }
+              className={ styles.addtoCartBtn }
+            >
+              Adicionar ao carrinho
+            </button>
+            <p>
+              {`R$: ${this.getPriceTimesAmount(productInfos.id).toFixed(2)}`}
+            </p>
             {productInfos.shipping.free_shipping && (
               <span data-testid="free-shipping">Frete Grátis</span>
             )}

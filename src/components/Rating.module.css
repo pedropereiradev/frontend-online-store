@@ -6,6 +6,7 @@
   cursor: pointer;
   display: inline-block;
   height: 25px;
+  transition: 0.3s;
   width: 25px;
 }
 
