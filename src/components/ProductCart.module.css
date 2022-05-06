@@ -1,0 +1,69 @@
+* {
+  color: black;
+}
+
+.btn {
+  background-color: white;
+  border: none;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.quantity {
+  border: solid 1px #ededed;
+  box-shadow: 0 0 1px grey;
+  margin: auto 5px;
+  text-align: center;
+  width: 50px;
+}
+
+.qtdButtons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.productItem {
+  align-items: center;
+  border: solid 1px rgb(200, 200, 200);
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column wrap;
+  height: 350px;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.productImg {
+  width: 100px;
+}
+
+.productPrice {
+  color: green;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.productTitle {
+  text-align: center;
+}
+
+.removeBtn {
+  background-color: lightgrey;
+  border: none;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.removeBtn:hover {
+  background-color: darkgrey;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.totalPrice {
+  font-weight: 900;
+}

@@ -66,7 +66,7 @@ class SideDrawer extends Component {
                   </p>
                 </div>
               ) : (
-                <div>
+                <div className={ style.cartContainer }>
                   <section className={ style.productsContainer }>
                     {
                       getAllCartProducts && (
@@ -83,6 +83,7 @@ class SideDrawer extends Component {
                   <Link
                     to="/checkout"
                     data-testid="checkout-products"
+                    className={ style.endShoppingBtn }
                   >
                     Finalizar compra
                   </Link>

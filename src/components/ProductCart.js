@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getQtde, updateQtde } from '../services/cartApi';
+import styles from './ProductCart.module.css';
 
 class ProductCart extends Component {
   constructor() {
@@ -41,38 +42,58 @@ class ProductCart extends Component {
     const { product, handleClick } = this.props;
     const { amount, total } = this.state;
     return (
-      <li key={ product.id }>
-        <button type="button" onClick={ () => handleClick(product) }>
-          Remover
-        </button>
+      <li
+        key={ product.id }
+        className={ styles.productItem }
+      >
         <img
           src={ product.thumbnail }
           alt={ `Imagem do produto ${product.title}` }
+          className={ styles.productImg }
         />
-        <h3 data-testid="shopping-cart-product-name">{product.title}</h3>
-        <span>{product.price}</span>
-        <button
-          data-testid="product-decrease-quantity"
-          type="button"
-          onClick={ () => this.lessItems(amount, product, total) }
+        <h3
+          data-testid="shopping-cart-product-name"
+          className={ styles.productTitle }
         >
-          -
-        </button>
-        <span data-testid="shopping-cart-product-quantity">
-          Quantidade:
-          {amount}
+          {product.title}
+        </h3>
+        <span className={ styles.productPrice }>
+          {`R$${product.price}`}
+        </span>
+        <div className={ styles.qtdButtons }>
+          <button
+            data-testid="product-decrease-quantity"
+            type="button"
+            className={ styles.btn }
+            onClick={ () => this.lessItems(amount, product, total) }
+          >
+            -
+          </button>
+          <span
+            data-testid="shopping-cart-product-quantity"
+            className={ styles.quantity }
+          >
+            {amount}
+          </span>
+          <button
+            data-testid="product-increase-quantity"
+            type="button"
+            className={ styles.btn }
+            onClick={ () => this.moreItems(amount, product, total) }
+          >
+            +
+          </button>
+        </div>
+        <span className={ styles.totalPrice }>
+          {`Total: R$${total}`}
         </span>
         <button
-          data-testid="product-increase-quantity"
           type="button"
-          onClick={ () => this.moreItems(amount, product, total) }
+          className={ styles.removeBtn }
+          onClick={ () => handleClick(product) }
         >
-          +
+          Remover
         </button>
-        <span>
-          Total:
-          {total}
-        </span>
       </li>
     );
   }
