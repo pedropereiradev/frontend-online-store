@@ -8,11 +8,23 @@
 
 .cart {
   margin-right: 20px;
+  transition: 0.3s;
+}
+
+.cart:hover {
+  padding: 5px 3px;
+  box-shadow: 3px 3px 12px 1px rgba(0, 0, 0, 0.1);
 }
 
 .cart img {
   height: 36px;
   width: 36px;
+}
+
+.cart button {
+  background-color: white;
+  border: none;
+  cursor: pointer;
 }
 
 .header {
