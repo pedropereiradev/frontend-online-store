@@ -12,8 +12,8 @@
 }
 
 .cart:hover {
-  padding: 5px 3px;
   box-shadow: 3px 3px 12px 1px rgba(0, 0, 0, 0.1);
+  padding: 5px 3px;
 }
 
 .cart img {
