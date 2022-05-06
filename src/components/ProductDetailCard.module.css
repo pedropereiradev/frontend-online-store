@@ -68,9 +68,42 @@
   color: white;
   cursor: pointer;
   font-weight: 700;
+  margin-bottom: 15px;
   padding: 20px 40px;
+  transition: 0.3s;
 }
 
 .addtoCartBtn:hover {
-  background-color: blue;
+  background-color: rgb(0, 120, 255);
+}
+
+.amount {
+  display: flex;
+  align-items: center;
+}
+
+.amount button {
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 2.2em;
+  transition: 0.3s;
+}
+
+.amount button:hover {
+  box-shadow: 3px 3px 12px 1px rgba(0, 0, 0, 0.12);
+  padding: 0 8px;
+}
+
+.amount p {
+  border: 1px solid gainsboro;
+  margin: 0 8px;
+  padding: 3px 40px;
+}
+
+.btnSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
