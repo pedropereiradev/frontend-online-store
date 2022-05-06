@@ -78,8 +78,8 @@
 }
 
 .amount {
-  display: flex;
   align-items: center;
+  display: flex;
 }
 
 .amount button {
@@ -103,7 +103,7 @@
 }
 
 .btnSection {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
