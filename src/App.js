@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import { setNewCartProduct, getCartProducts, removeCartItem } from './services/cartApi';
+import * as cartAPI from './services/cartApi';
 import ProductDetail from './pages/ProductDetail';
 import Checkout from './pages/Checkout';
 
@@ -10,7 +10,6 @@ class App extends Component {
     super();
 
     this.state = {
-      cartStatus: false,
       sideDrawerState: false,
       cartProducts: [],
     };
@@ -29,27 +28,44 @@ class App extends Component {
   }
 
   addToCart = (product) => {
-    setNewCartProduct(product);
+    cartAPI.setNewCartProduct(product);
 
     this.setState({
-      cartProducts: [...getCartProducts()],
+      cartProducts: [...cartAPI.getCartProducts()],
     });
   }
 
   removeFromCart = (product) => {
-    removeCartItem(product);
+    cartAPI.removeCartItem(product);
 
     this.setState({
-      cartProducts: [...getCartProducts()],
+      cartProducts: [...cartAPI.getCartProducts()],
     });
   }
 
-  addQtd = () => {
+  increaseQty = (product) => {
+    cartAPI.increaseQty(product);
 
+    this.setState({
+      cartProducts: [...cartAPI.getCartProducts()],
+    });
   }
 
-  lowerQtd = () => {
+  lowerQty = (product) => {
+    cartAPI.lowerQty(product);
 
+    this.setState({
+      cartProducts: [...cartAPI.getCartProducts()],
+    });
+  }
+
+  clearCart = () => {
+    cartAPI.cleanCart();
+
+    this.setState({
+      cartProducts: [...cartAPI.getCartProducts()],
+      sideDrawerState: false,
+    });
   }
 
   render() {
@@ -69,13 +85,22 @@ class App extends Component {
                 addToCart={ this.addToCart }
                 sideDrawerState={ sideDrawerState }
                 cartProducts={ cartProducts }
-                addQtd={ this.addQtd }
-                lowerQtd={ this.lowerQtd }
+                increaseQty={ this.increaseQty }
+                lowerQty={ this.lowerQty }
                 removeFromCart={ this.removeFromCart }
               />
             ) }
           />
-          <Route exact path="/checkout" component={ Checkout } />
+          <Route
+            exact
+            path="/checkout"
+            render={ (props) => (
+              <Checkout
+                { ...props }
+                clearCart={ this.clearCart }
+              />
+            )}
+          />
           <Route
             exact
             path="/product/:id"
@@ -86,8 +111,10 @@ class App extends Component {
                 closeDrawerHandler={ this.closeDrawerHandler }
                 addToCart={ this.addToCart }
                 sideDrawerState={ sideDrawerState }
-                addQtd={ this.addQtd }
-                lowerQtd={ this.lowerQtd }
+                cartProducts={ cartProducts }
+                increaseQty={ this.increaseQty }
+                lowerQty={ this.lowerQty }
+                removeFromCart={ this.removeFromCart }
               />
             ) }
           />

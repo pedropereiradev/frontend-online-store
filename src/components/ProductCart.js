@@ -1,27 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getCartProducts } from '../services/cartApi';
 import styles from './ProductCart.module.css';
 
 class ProductCart extends Component {
-  constructor() {
-    super();
-    this.state = { amount: 0, total: 0 };
-  }
-
-  componentDidMount() {
-    const { product: { price, id } } = this.props;
-    const { amount } = getCartProducts().find(({ product }) => product.id === id);
-
-    this.setState({
-      total: price,
-      amount,
-    });
-  }
-
   render() {
-    const { product, handleClick } = this.props;
-    const { amount, total } = this.state;
+    const { product, amount, removeFromCart, increaseQty, lowerQty } = this.props;
+
     return (
       <li
         key={ product.id }
@@ -46,7 +30,7 @@ class ProductCart extends Component {
             data-testid="product-decrease-quantity"
             type="button"
             className={ styles.btn }
-            onClick={ () => this.lessItems(amount, product, total) }
+            onClick={ () => lowerQty(product) }
           >
             -
           </button>
@@ -60,18 +44,18 @@ class ProductCart extends Component {
             data-testid="product-increase-quantity"
             type="button"
             className={ styles.btn }
-            onClick={ () => this.moreItems(amount, product, total) }
+            onClick={ () => increaseQty(product) }
           >
             +
           </button>
         </div>
         <span className={ styles.totalPrice }>
-          {`Total: R$${total}`}
+          {`Total: R$${product.price * amount}`}
         </span>
         <button
           type="button"
           className={ styles.removeBtn }
-          onClick={ () => handleClick(product) }
+          onClick={ () => removeFromCart(product) }
         >
           Remover
         </button>
@@ -82,7 +66,7 @@ class ProductCart extends Component {
 
 ProductCart.propTypes = {
   product: PropTypes.objectOf(PropTypes.any).isRequired,
-  handleClick: PropTypes.func.isRequired,
+  removeFromCart: PropTypes.func.isRequired,
 };
 
 export default ProductCart;

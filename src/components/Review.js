@@ -11,8 +11,10 @@ class Review extends Component {
   }
 
   getQtde = (id) => {
-    const { amount } = getCartProducts()
-      .find(({ product: { id: itemId } }) => itemId === id);
+    const teste = getCartProducts().find(({ product: { id: itemId } }) => {
+      return itemId === id;
+    });
+    const { amount } = teste;
 
     return amount;
   }

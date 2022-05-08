@@ -85,7 +85,8 @@ class Home extends Component {
       noResults } = this.state;
 
     const { drawerToggleClickHandler, closeDrawerHandler,
-      addToCart, sideDrawerState, cartProducts, removeFromCart } = this.props;
+      addToCart, sideDrawerState, cartProducts, removeFromCart,
+      increaseQty, lowerQty } = this.props;
 
     let sideDrawer;
     let backdrop;
@@ -96,6 +97,8 @@ class Home extends Component {
           closeSliderHandler={ closeDrawerHandler }
           cartProducts={ cartProducts }
           removeFromCart={ removeFromCart }
+          increaseQty={ increaseQty }
+          lowerQty={ lowerQty }
         />
       );
       backdrop = <Backdrop backdropClickHandler={ closeDrawerHandler } />;

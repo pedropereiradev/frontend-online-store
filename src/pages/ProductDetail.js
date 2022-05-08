@@ -40,8 +40,8 @@ class ProductDetail extends Component {
     const {
       match: { params: { id } },
       drawerToggleClickHandler, closeDrawerHandler,
-      updateCartStatus, addToCart, cartStatus, sideDrawerState
-    } = this.props;
+      addToCart, sideDrawerState, cartProducts, removeFromCart,
+      increaseQty, lowerQty } = this.props;
     const {
       productInfos,
       productInfos: { pictures, title, attributes, price },
@@ -55,7 +55,10 @@ class ProductDetail extends Component {
       sideDrawer = (
         <SideDrawer
           closeSliderHandler={ closeDrawerHandler }
-          updateCart={ updateCartStatus }
+          cartProducts={ cartProducts }
+          removeFromCart={ removeFromCart }
+          increaseQty={ increaseQty }
+          lowerQty={ lowerQty }
         />
       );
       backdrop = <Backdrop backdropClickHandler={ closeDrawerHandler } />;
@@ -64,8 +67,8 @@ class ProductDetail extends Component {
     return (
       <main>
         <Header
-          cartStatus={ cartStatus }
           drawerClickHandler={ drawerToggleClickHandler }
+          cartProducts={ cartProducts }
         />
         {sideDrawer}
         {backdrop}
@@ -80,7 +83,6 @@ class ProductDetail extends Component {
               attributes={ attributes }
               price={ price }
               addToCart={ addToCart }
-              updateCart={ updateCartStatus }
             />
             <Avaliation id={ id } />
           </section>

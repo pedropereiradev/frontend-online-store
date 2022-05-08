@@ -1,12 +1,7 @@
 const CART_ITEMS_KEY = 'cart_items';
-const CART_ITEMS_AMOUNT = 'qtde';
 
 if (!JSON.parse(localStorage.getItem(CART_ITEMS_KEY))) {
   localStorage.setItem(CART_ITEMS_KEY, JSON.stringify([]));
-}
-
-if (!JSON.parse(localStorage.getItem(CART_ITEMS_AMOUNT))) {
-  localStorage.setItem(CART_ITEMS_AMOUNT, JSON.stringify([]));
 }
 
 const readCartItems = () => JSON.parse(localStorage.getItem(CART_ITEMS_KEY));
@@ -25,9 +20,9 @@ export function setNewCartProduct(product) {
 
   if (hasTheProductOnCart) {
     const itemUpdated = cart.map((value) => {
-      const { product: { id }, amount } = value;
+      const { product: { id, available_quantity: available }, amount } = value;
 
-      if (id === product.id) {
+      if (id === product.id && amount < available) {
         const updatedQtd = amount + 1;
 
         value.amount = updatedQtd;
@@ -49,7 +44,49 @@ export function removeCartItem(product) {
   saveCart(cart.filter(({ product: p }) => p.id !== product.id));
 }
 
+export function increaseQty(itemCart) {
+  const { id: itemId, available_quantity: available } = itemCart;
+  const cart = readCartItems();
+  const { amount: oldValue } = cart.find(({ product: { id } }) => id === itemId);
+
+  if (oldValue < available) {
+    const increasedQtd = cart.map(({ product, amount: oldAmount }) => {
+      let amount = oldAmount;
+
+      if (product.id === itemId) {
+        amount += 1;
+      }
+
+      return { product, amount };
+    });
+
+    saveCart(increasedQtd);
+    console.log(available);
+  }
+}
+
+export function lowerQty(itemCart) {
+  const { id: itemId } = itemCart;
+  const cart = readCartItems();
+  const { amount: oldValue } = cart.find(({ product: { id } }) => id === itemId);
+
+  if (oldValue > 1) {
+    const lowereQtd = cart.map(({ product, amount: oldAmount }) => {
+      let amount = oldAmount;
+
+      if (product.id === itemId) {
+        amount -= 1;
+      }
+
+      return { product, amount };
+    });
+
+    saveCart(lowereQtd);
+  } else {
+    removeCartItem(itemCart);
+  }
+}
+
 export function cleanCart() {
   localStorage.setItem(CART_ITEMS_KEY, '[]');
-  localStorage.setItem(CART_ITEMS_AMOUNT, '[]');
 }

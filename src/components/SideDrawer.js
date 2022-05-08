@@ -6,8 +6,8 @@ import style from './SideDrawer.module.css';
 
 class SideDrawer extends Component {
   render() {
-    const { closeSliderHandler, removeFromCart, cartProducts } = this.props;
-    const products = cartProducts.map(({ product }) => product);
+    const { closeSliderHandler, removeFromCart, cartProducts: products,
+      increaseQty, lowerQty } = this.props;
 
     return (
       <div className={ style.drawerContainer }>
@@ -40,11 +40,14 @@ class SideDrawer extends Component {
                 <div className={ style.cartContainer }>
                   <section className={ style.productsContainer }>
                     {
-                      products.map((product) => (
+                      products.map(({ product, amount }) => (
                         <ProductCart
                           key={ product.id }
                           product={ product }
-                          handleClick={ removeFromCart }
+                          amount={ amount }
+                          removeFromCart={ removeFromCart }
+                          increaseQty={ increaseQty }
+                          lowerQty={ lowerQty }
                         />
                       ))
                     }
