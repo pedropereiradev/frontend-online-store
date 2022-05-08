@@ -74,8 +74,7 @@ class ProductDetailCard extends Component {
                   <h3>{name === null ? '-' : `${name}:`}</h3>
                   <p>{value === null ? '-' : value}</p>
                 </li>
-              ))
-              }
+              )) }
             </ul>
           </div>
         </section>
