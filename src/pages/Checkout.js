@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import BuyerInfo from '../components/BuyerInfo';
 import Payment from '../components/Payment';
 import Review from '../components/Review';
-import { cleanCart, getCartProducts, getQtde } from '../services/cartApi';
+import { getCartProducts } from '../services/cartApi';
 import getCepInfo from '../services/cepApi';
 import { eightNumberPhone, formatCpf, nineNumberPhone } from '../services/infoApi';
 import CompraConcluida from '../components/CompraConcluida';
@@ -44,16 +44,13 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
-    const cart = getCartProducts();
-    const total = cart.reduce((acc, { price, id }) => (
-      acc + (price * getQtde(id).amount)
+    const products = getCartProducts();
+    const total = products.reduce((acc, { product: { price }, amount }) => (
+      acc + (price * amount)
     ), 0);
-    this.setState({ cart, total });
-  }
+    const cart = products.map(({ product }) => product);
 
-  componentWillUnmount() {
-    const { pedidoConcluido } = this.state;
-    if (pedidoConcluido) cleanCart();
+    this.setState({ cart, total });
   }
 
   handlePurchase() {
@@ -85,6 +82,8 @@ class Checkout extends Component {
       && uf !== ''
       && payment !== ''
     ) {
+      const { clearCart } = this.props;
+      clearCart();
       this.setState({ pedidoConcluido: true });
     } else {
       alert('Por favor, preencha todo o formulário');
@@ -243,6 +242,7 @@ class Checkout extends Component {
 }
 
 Checkout.propTypes = {
+  clearCart: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 

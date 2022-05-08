@@ -3,40 +3,11 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductCart from './ProductCart';
 import style from './SideDrawer.module.css';
-import { getCartProducts, removeCartItem } from '../services/cartApi';
 
 class SideDrawer extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      getAllCartProducts: false,
-      products: [],
-    };
-  }
-
-  componentDidMount() {
-    const products = getCartProducts();
-
-    this.setState({
-      products,
-      getAllCartProducts: true,
-    });
-  }
-
-  handleClick = (product) => {
-    const { updateCart } = this.props;
-
-    removeCartItem(product);
-    updateCart();
-    const products = getCartProducts();
-
-    this.setState({ products });
-  }
-
   render() {
-    const { closeSliderHandler } = this.props;
-    const { products, getAllCartProducts } = this.state;
+    const { closeSliderHandler, removeFromCart, cartProducts: products,
+      increaseQty, lowerQty } = this.props;
 
     return (
       <div className={ style.drawerContainer }>
@@ -69,15 +40,16 @@ class SideDrawer extends Component {
                 <div className={ style.cartContainer }>
                   <section className={ style.productsContainer }>
                     {
-                      getAllCartProducts && (
-                        products.map((product) => (
-                          <ProductCart
-                            key={ product.id }
-                            product={ product }
-                            handleClick={ this.handleClick }
-                          />
-                        ))
-                      )
+                      products.map(({ product, amount }) => (
+                        <ProductCart
+                          key={ product.id }
+                          product={ product }
+                          amount={ amount }
+                          removeFromCart={ removeFromCart }
+                          increaseQty={ increaseQty }
+                          lowerQty={ lowerQty }
+                        />
+                      ))
                     }
                   </section>
                   <Link
@@ -98,8 +70,11 @@ class SideDrawer extends Component {
 }
 
 SideDrawer.propTypes = {
+  cartProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
   closeSliderHandler: PropTypes.func.isRequired,
-  updateCart: PropTypes.func.isRequired,
+  increaseQty: PropTypes.func.isRequired,
+  lowerQty: PropTypes.func.isRequired,
+  removeFromCart: PropTypes.func.isRequired,
 };
 
 export default SideDrawer;

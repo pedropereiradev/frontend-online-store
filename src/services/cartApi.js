@@ -1,12 +1,7 @@
 const CART_ITEMS_KEY = 'cart_items';
-const CART_ITEMS_AMOUNT = 'qtde';
 
 if (!JSON.parse(localStorage.getItem(CART_ITEMS_KEY))) {
   localStorage.setItem(CART_ITEMS_KEY, JSON.stringify([]));
-}
-
-if (!JSON.parse(localStorage.getItem(CART_ITEMS_AMOUNT))) {
-  localStorage.setItem(CART_ITEMS_AMOUNT, JSON.stringify([]));
 }
 
 const readCartItems = () => JSON.parse(localStorage.getItem(CART_ITEMS_KEY));
@@ -18,41 +13,79 @@ export function getCartProducts() {
   return readCartItems();
 }
 
-export function setNewCartProduct(product) {
+export function setNewCartProduct(product, amountReceived) {
   const cart = readCartItems();
-  saveCart([...cart, product]);
+  const hasTheProductOnCart = cart.some(({ product: { id } }) => id === product.id);
+  let finalArary = [];
+
+  if (hasTheProductOnCart) {
+    const itemUpdated = cart.map((value) => {
+      const { product: { id, available_quantity: available }, amount } = value;
+
+      if (id === product.id && amount < available) {
+        const updatedQtd = amount + amountReceived;
+
+        value.amount = updatedQtd;
+      }
+
+      return value;
+    });
+
+    finalArary = [...itemUpdated];
+  } else {
+    finalArary = [...cart, { product, amount: amountReceived }];
+  }
+
+  saveCart(finalArary);
 }
 
 export function removeCartItem(product) {
   const cart = readCartItems();
-  saveCart(cart.filter((p) => p.id !== product.id));
+  saveCart(cart.filter(({ product: p }) => p.id !== product.id));
+}
+
+export function increaseQty(itemCart) {
+  const { id: itemId, available_quantity: available } = itemCart;
+  const cart = readCartItems();
+  const { amount: oldValue } = cart.find(({ product: { id } }) => id === itemId);
+
+  if (oldValue < available) {
+    const increasedQtd = cart.map(({ product, amount: oldAmount }) => {
+      let amount = oldAmount;
+
+      if (product.id === itemId) {
+        amount += 1;
+      }
+
+      return { product, amount };
+    });
+
+    saveCart(increasedQtd);
+  }
+}
+
+export function lowerQty(itemCart) {
+  const { id: itemId } = itemCart;
+  const cart = readCartItems();
+  const { amount: oldValue } = cart.find(({ product: { id } }) => id === itemId);
+
+  if (oldValue > 1) {
+    const lowereQtd = cart.map(({ product, amount: oldAmount }) => {
+      let amount = oldAmount;
+
+      if (product.id === itemId) {
+        amount -= 1;
+      }
+
+      return { product, amount };
+    });
+
+    saveCart(lowereQtd);
+  } else {
+    removeCartItem(itemCart);
+  }
 }
 
 export function cleanCart() {
   localStorage.setItem(CART_ITEMS_KEY, '[]');
-  localStorage.setItem(CART_ITEMS_AMOUNT, '[]');
-}
-
-export function updateQtde(id, amount) {
-  const items = JSON.parse(localStorage.getItem('qtde'));
-  if (items.some(({ id: productId }) => productId === id)) {
-    items.forEach(({ id: productId }, index) => {
-      if (productId === id) {
-        items[index].amount = amount;
-      }
-      localStorage.setItem('qtde', JSON.stringify(items));
-    });
-  } else {
-    const newItems = [...items, { id, amount }];
-    localStorage.setItem('qtde', JSON.stringify(newItems));
-  }
-}
-
-export function getQtde(id) {
-  const items = JSON.parse(localStorage.getItem('qtde'));
-  const element = items.find(({ id: productId }) => productId === id);
-  if (!element || !items.length) {
-    return { amount: 1 };
-  }
-  return element;
 }

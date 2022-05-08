@@ -4,44 +4,10 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/logo.svg';
 import cartIcon from '../assets/cartIcon.svg';
 import styles from './Header.module.css';
-import { getCartProducts } from '../services/cartApi';
 
 class Header extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      productQtd: 0,
-    };
-  }
-
-  componentDidMount() {
-    const qtd = getCartProducts().length;
-
-    this.setState({
-      productQtd: qtd,
-    });
-  }
-
-  componentDidUpdate() {
-    this.shouldUpdateCartQtd();
-  }
-
-  shouldUpdateCartQtd = () => {
-    const { updateCart } = this.props;
-
-    if (updateCart) {
-      const qtd = getCartProducts().length;
-
-      this.setState({
-        productQtd: qtd,
-      });
-    }
-  }
-
   render() {
-    const { drawerClickHandler } = this.props;
-    const { productQtd } = this.state;
+    const { drawerClickHandler, cartProducts } = this.props;
 
     return (
       <header className={ styles.header }>
@@ -63,7 +29,13 @@ class Header extends React.Component {
             className={ styles.quantityIcon }
             data-testid="shopping-cart-size"
           >
-            {productQtd}
+            {
+              cartProducts.reduce((acc, { amount }) => {
+                acc += amount;
+
+                return acc;
+              }, 0)
+            }
           </span>
         </div>
       </header>
@@ -72,7 +44,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  updateCart: PropTypes.bool.isRequired,
+  cartProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
   drawerClickHandler: PropTypes.func.isRequired,
 };
 

@@ -7,14 +7,17 @@ import styles from './Products.module.css';
 class Product extends Component {
   constructor() {
     super();
-    this.state = { productInCart: getCartProducts(), inCart: false };
+
+    const productInCart = getCartProducts().map(({ product }) => product);
+
+    this.state = { productInCart, inCart: false };
   }
 
   componentDidMount() {
     const { productInCart } = this.state;
     const { product } = this.props;
 
-    productInCart.map(({ id }) => id.includes(product.id) && (
+    productInCart.forEach(({ id }) => id.includes(product.id) && (
       this.setState({ inCart: true })
     ));
   }
@@ -48,7 +51,7 @@ class Product extends Component {
         {inCart && <span>No Carrinho</span>}
         <button
           type="button"
-          onClick={ () => addToCart(product.id) }
+          onClick={ () => addToCart(product) }
           data-testid="product-add-to-cart"
         >
           Adicionar ao Carrinho

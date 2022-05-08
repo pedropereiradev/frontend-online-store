@@ -8,7 +8,6 @@ import Form from '../components/Form';
 import Products from '../components/Products';
 import SideDrawer from '../components/SideDrawer';
 import { getProductsFromCategoryAndQuery } from '../services/api';
-import { setNewCartProduct } from '../services/cartApi';
 import styles from './Home.module.css';
 import { sortLowerToHigher, sortHigherToLower } from '../services/order';
 import SelectedOrder from '../components/SelectedOrder';
@@ -20,7 +19,6 @@ class Home extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSearchButtonClick = this.onSearchButtonClick.bind(this);
     this.renderProductsByCategory = this.renderProductsByCategory.bind(this);
-    this.addToCart = this.addToCart.bind(this);
 
     this.state = {
       search: '',
@@ -28,9 +26,6 @@ class Home extends Component {
       introMessage: false,
       isLoading: false,
       noResults: false,
-      cart: [],
-      cartStatus: false,
-      sideDrawerState: false,
     };
   }
 
@@ -67,39 +62,6 @@ class Home extends Component {
     }
   };
 
-  drawerToggleClickHandler = () => {
-    this.setState(({ sideDrawerState: oldvalue }) => ({
-      sideDrawerState: !oldvalue,
-    }));
-  }
-
-  closeDrawerHandler = () => {
-    this.setState({
-      sideDrawerState: false,
-    });
-  }
-
-  updateCartStatus = () => {
-    this.setState({
-      cartStatus: true,
-    }, () => {
-      this.setState({
-        cartStatus: false,
-      });
-    });
-  }
-
-  addToCart(productId) {
-    const { products } = this.state;
-    const product = products.find(({ id }) => productId === id);
-
-    this.setState(({ cart }) => ({ cart: [...cart, product] }), () => {
-      setNewCartProduct(product);
-
-      this.updateCartStatus();
-    });
-  }
-
   renderProductsByCategory({ target: { id } }) {
     this.setState({ isLoading: true }, async () => {
       const { results } = await getProductsFromCategoryAndQuery(id);
@@ -121,8 +83,11 @@ class Home extends Component {
 
   render() {
     const { introMessage, search, isLoading, products,
-      noResults, cartStatus, sideDrawerState } = this.state;
-    const { history: { goBack, location: { pathname } } } = this.props;
+      noResults } = this.state;
+
+    const { drawerToggleClickHandler, closeDrawerHandler,
+      addToCart, sideDrawerState, cartProducts, removeFromCart,
+      increaseQty, lowerQty } = this.props;
 
     let sideDrawer;
     let backdrop;
@@ -130,20 +95,21 @@ class Home extends Component {
     if (sideDrawerState) {
       sideDrawer = (
         <SideDrawer
-          closeSliderHandler={ this.closeDrawerHandler }
-          updateCart={ this.updateCartStatus }
+          closeSliderHandler={ closeDrawerHandler }
+          cartProducts={ cartProducts }
+          removeFromCart={ removeFromCart }
+          increaseQty={ increaseQty }
+          lowerQty={ lowerQty }
         />
       );
-      backdrop = <Backdrop backdropClickHandler={ this.closeDrawerHandler } />;
+      backdrop = <Backdrop backdropClickHandler={ closeDrawerHandler } />;
     }
 
     return (
       <section>
         <Header
-          actualRoute={ pathname }
-          goBack={ goBack }
-          updateCart={ cartStatus }
-          drawerClickHandler={ this.drawerToggleClickHandler }
+          drawerClickHandler={ drawerToggleClickHandler }
+          cartProducts={ cartProducts }
         />
         {sideDrawer}
         {backdrop}
@@ -169,7 +135,7 @@ class Home extends Component {
                 introMessage={ introMessage }
                 noResults={ noResults }
                 products={ products }
-                addToCart={ this.addToCart }
+                addToCart={ addToCart }
               />
             )}
           </section>
@@ -180,12 +146,14 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  history: PropTypes.shape({
-    goBack: PropTypes.func.isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+  drawerToggleClickHandler: PropTypes.func.isRequired,
+  closeDrawerHandler: PropTypes.func.isRequired,
+  addToCart: PropTypes.func.isRequired,
+  sideDrawerState: PropTypes.bool.isRequired,
+  cartProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  removeFromCart: PropTypes.func.isRequired,
+  increaseQty: PropTypes.func.isRequired,
+  lowerQty: PropTypes.func.isRequired,
 };
 
 export default Home;
