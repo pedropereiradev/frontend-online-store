@@ -21,10 +21,10 @@ class ProductDetailCard extends Component {
     return amount * price;
   }
 
-  updateAmount({ target: { name } }) {
+  updateAmount({ target: { name } }, { available_quantity: available }) {
     const { amount } = this.state;
 
-    if (name === 'up') {
+    if (name === 'up' && amount < available) {
       this.setState(({ amount: prevAmount }) => ({
         amount: prevAmount + 1,
       }), () => {
@@ -48,12 +48,18 @@ class ProductDetailCard extends Component {
   render() {
     const {
       productInfos,
+      productInfos: { available_quantity: available },
       title,
       pictures,
       attributes,
       addToCart,
     } = this.props;
     const { amount, isBtnAddCartDisabled } = this.state;
+    const estoqueAttr = {
+      id: 'QTY',
+      name: 'Em estoque',
+      value_name: available,
+    };
 
     return (
       <section className={ styles.container }>
@@ -63,12 +69,13 @@ class ProductDetailCard extends Component {
           <div>
             <h2>Especificações:</h2>
             <ul>
-              {attributes.map(({ id, name, value_name: value }) => (
+              {[...attributes, estoqueAttr].map(({ id, name, value_name: value }) => (
                 <li key={ id }>
                   <h3>{name === null ? '-' : `${name}:`}</h3>
                   <p>{value === null ? '-' : value}</p>
                 </li>
-              ))}
+              ))
+              }
             </ul>
           </div>
         </section>
@@ -79,7 +86,7 @@ class ProductDetailCard extends Component {
               <button
                 type="button"
                 name="down"
-                onClick={ (event) => this.updateAmount(event) }
+                onClick={ (event) => this.updateAmount(event, productInfos) }
               >
                 -
               </button>
@@ -87,7 +94,7 @@ class ProductDetailCard extends Component {
               <button
                 type="button"
                 name="up"
-                onClick={ (event) => this.updateAmount(event) }
+                onClick={ (event) => this.updateAmount(event, productInfos) }
               >
                 +
               </button>
