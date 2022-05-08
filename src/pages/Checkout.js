@@ -84,7 +84,6 @@ class Checkout extends Component {
     ) {
       const { clearCart } = this.props;
       clearCart();
-
       this.setState({ pedidoConcluido: true });
     } else {
       alert('Por favor, preencha todo o formulário');
@@ -176,7 +175,7 @@ class Checkout extends Component {
       loading,
       pedidoConcluido,
     } = this.state;
-    const { history: { goBack },  } = this.props;
+    const { history: { goBack } } = this.props;
     if (pedidoConcluido) {
       return (
         <CompraConcluida
@@ -243,6 +242,7 @@ class Checkout extends Component {
 }
 
 Checkout.propTypes = {
+  clearCart: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 

@@ -98,6 +98,14 @@ ProductDetail.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  drawerToggleClickHandler: PropTypes.func.isRequired,
+  closeDrawerHandler: PropTypes.func.isRequired,
+  addToCart: PropTypes.func.isRequired,
+  sideDrawerState: PropTypes.bool.isRequired,
+  cartProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  removeFromCart: PropTypes.func.isRequired,
+  increaseQty: PropTypes.func.isRequired,
+  lowerQty: PropTypes.func.isRequired,
 };
 
 export default ProductDetail;

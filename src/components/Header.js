@@ -44,6 +44,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
+  cartProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
   drawerClickHandler: PropTypes.func.isRequired,
 };
 

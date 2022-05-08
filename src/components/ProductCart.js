@@ -65,6 +65,9 @@ class ProductCart extends Component {
 }
 
 ProductCart.propTypes = {
+  amount: PropTypes.number.isRequired,
+  increaseQty: PropTypes.func.isRequired,
+  lowerQty: PropTypes.func.isRequired,
   product: PropTypes.objectOf(PropTypes.any).isRequired,
   removeFromCart: PropTypes.func.isRequired,
 };

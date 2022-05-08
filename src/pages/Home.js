@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Categories from '../components/Categories';
 import Backdrop from '../components/Backdrop';
@@ -143,5 +144,16 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  drawerToggleClickHandler: PropTypes.func.isRequired,
+  closeDrawerHandler: PropTypes.func.isRequired,
+  addToCart: PropTypes.func.isRequired,
+  sideDrawerState: PropTypes.bool.isRequired,
+  cartProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  removeFromCart: PropTypes.func.isRequired,
+  increaseQty: PropTypes.func.isRequired,
+  lowerQty: PropTypes.func.isRequired,
+};
 
 export default Home;

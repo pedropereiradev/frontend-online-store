@@ -13,7 +13,7 @@ export function getCartProducts() {
   return readCartItems();
 }
 
-export function setNewCartProduct(product) {
+export function setNewCartProduct(product, amountReceived) {
   const cart = readCartItems();
   const hasTheProductOnCart = cart.some(({ product: { id } }) => id === product.id);
   let finalArary = [];
@@ -23,7 +23,7 @@ export function setNewCartProduct(product) {
       const { product: { id, available_quantity: available }, amount } = value;
 
       if (id === product.id && amount < available) {
-        const updatedQtd = amount + 1;
+        const updatedQtd = amount + amountReceived;
 
         value.amount = updatedQtd;
       }
@@ -33,7 +33,7 @@ export function setNewCartProduct(product) {
 
     finalArary = [...itemUpdated];
   } else {
-    finalArary = [...cart, { product, amount: 1}];
+    finalArary = [...cart, { product, amount: amountReceived }];
   }
 
   saveCart(finalArary);
@@ -61,7 +61,6 @@ export function increaseQty(itemCart) {
     });
 
     saveCart(increasedQtd);
-    console.log(available);
   }
 }
 

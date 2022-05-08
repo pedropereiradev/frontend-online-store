@@ -70,7 +70,11 @@ class SideDrawer extends Component {
 }
 
 SideDrawer.propTypes = {
+  cartProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
   closeSliderHandler: PropTypes.func.isRequired,
+  increaseQty: PropTypes.func.isRequired,
+  lowerQty: PropTypes.func.isRequired,
+  removeFromCart: PropTypes.func.isRequired,
 };
 
 export default SideDrawer;

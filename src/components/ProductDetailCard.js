@@ -1,57 +1,42 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './ProductDetailCard.module.css';
-import { getCartProducts } from '../services/cartApi';
 
 class ProductDetailCard extends Component {
   constructor() {
     super();
 
     this.state = {
-      amount: 0,
+      amount: 1,
       isBtnAddCartDisabled: false,
     };
 
     this.updateAmount = this.updateAmount.bind(this);
   }
 
-  componentDidMount() {
-    const { productInfos: { id } } = this.props;
-    const { amount } = getCartProducts()
-      .find(({ product: { id: itemId } }) => itemId === id);
-
-    this.setState({
-      amount,
-    });
-  }
-
-  getPriceTimesAmount(id) {
+  getPriceTimesAmount() {
     const { price } = this.props;
-    const { amount } = getCartProducts()
-      .find(({ product: { id: itemId } }) => itemId === id);
+    const { amount } = this.state;
+
     return amount * price;
   }
 
   updateAmount({ target: { name } }) {
-    // const { productInfos: { id } } = this.props;
-    // const { amount } = this.state;
-    // if (name === 'up') {
-    //   this.setState(({ amount: prevAmount }) => ({
-    //     amount: prevAmount + 1,
-    //     isBtnAddCartDisabled: prevAmount === 0,
-    //   }), () => {
-    //     this.disableButton();
-    //     updateQtde(id, amount + 1);
-    //   });
-    // } else if (amount > 0) {
-    //   this.setState(({ amount: prevAmount }) => ({
-    //     amount: prevAmount - 1,
-    //     isBtnAddCartDisabled: prevAmount === 0,
-    //   }), () => {
-    //     this.disableButton();
-    //     updateQtde(id, amount - 1);
-    //   });
-    // }
+    const { amount } = this.state;
+
+    if (name === 'up') {
+      this.setState(({ amount: prevAmount }) => ({
+        amount: prevAmount + 1,
+      }), () => {
+        this.disableButton();
+      });
+    } else if (amount > 1) {
+      this.setState(({ amount: prevAmount }) => ({
+        amount: prevAmount - 1,
+      }), () => {
+        this.disableButton();
+      });
+    }
   }
 
   disableButton() {
@@ -69,6 +54,7 @@ class ProductDetailCard extends Component {
       addToCart,
     } = this.props;
     const { amount, isBtnAddCartDisabled } = this.state;
+
     return (
       <section className={ styles.container }>
         <h2 data-testid="product-detail-name">{title}</h2>
@@ -90,11 +76,19 @@ class ProductDetailCard extends Component {
           <section>
             <p>Quantidade:</p>
             <span className={ styles.amount }>
-              <button type="button" name="down" onClick={ this.updateAmount }>
+              <button
+                type="button"
+                name="down"
+                onClick={ (event) => this.updateAmount(event) }
+              >
                 -
               </button>
               <p>{amount}</p>
-              <button type="button" name="up" onClick={ this.updateAmount }>
+              <button
+                type="button"
+                name="up"
+                onClick={ (event) => this.updateAmount(event) }
+              >
                 +
               </button>
             </span>
@@ -102,7 +96,7 @@ class ProductDetailCard extends Component {
           <section className={ styles.btnSection }>
             <button
               type="button"
-              onClick={ () => addToCart(productInfos) }
+              onClick={ () => addToCart(productInfos, amount) }
               data-testid="product-detail-add-to-cart"
               disabled={ isBtnAddCartDisabled }
               className={ styles.addtoCartBtn }
@@ -110,7 +104,7 @@ class ProductDetailCard extends Component {
               Adicionar ao carrinho
             </button>
             <p>
-              {`R$: ${this.getPriceTimesAmount(productInfos.id).toFixed(2)}`}
+              {`R$: ${this.getPriceTimesAmount().toFixed(2)}`}
             </p>
             {productInfos.shipping.free_shipping && (
               <span data-testid="free-shipping">Frete Grátis</span>

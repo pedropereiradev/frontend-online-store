@@ -27,8 +27,8 @@ class App extends Component {
     });
   }
 
-  addToCart = (product) => {
-    cartAPI.setNewCartProduct(product);
+  addToCart = (product, amount = 1) => {
+    cartAPI.setNewCartProduct(product, amount);
 
     this.setState({
       cartProducts: [...cartAPI.getCartProducts()],
@@ -99,7 +99,7 @@ class App extends Component {
                 { ...props }
                 clearCart={ this.clearCart }
               />
-            )}
+            ) }
           />
           <Route
             exact
