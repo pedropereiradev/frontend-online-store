@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getQtde, updateQtde } from '../services/cartApi';
+import { getCartProducts } from '../services/cartApi';
 import styles from './ProductCart.module.css';
 
 class ProductCart extends Component {
@@ -11,31 +11,12 @@ class ProductCart extends Component {
 
   componentDidMount() {
     const { product: { price, id } } = this.props;
-    const { amount } = getQtde(id);
+    const { amount } = getCartProducts().find(({ product }) => product.id === id);
+
     this.setState({
       total: price,
       amount,
     });
-  }
-
-  lessItems = (prevAmount, product, prevTotal) => prevAmount > 0 && this.setState({
-    amount: prevAmount - 1,
-    total: prevTotal - product.price,
-  }, () => {
-    const { amount } = this.state;
-    updateQtde(product.id, amount);
-  });
-
-  moreItems = (prevAmount, product, prevTotal) => {
-    if (prevAmount < product.available_quantity) {
-      this.setState({
-        amount: prevAmount + 1,
-        total: prevTotal + product.price,
-      }, () => {
-        const { amount } = this.state;
-        updateQtde(product.id, amount);
-      });
-    }
   }
 
   render() {

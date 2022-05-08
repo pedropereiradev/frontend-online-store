@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getQtde } from '../services/cartApi';
+import { getCartProducts } from '../services/cartApi';
 import styles from './Review.module.css';
 
 class Review extends Component {
-  getExactPrice(id, price) {
-    return getQtde(id).amount * price;
+  getExactPrice = (id, price) => {
+    const amount = this.getQtde(id);
+
+    return amount * price;
+  }
+
+  getQtde = (id) => {
+    const { amount } = getCartProducts()
+      .find(({ product: { id: itemId } }) => itemId === id);
+
+    return amount;
   }
 
   render() {
@@ -28,7 +37,7 @@ class Review extends Component {
                 </span>
                 <span className={ styles.info }>
                   <p className={ styles.title }>{ title }</p>
-                  <p>{ `Quantidade: ${getQtde(id).amount}` }</p>
+                  <p>{ `Quantidade: ${this.getQtde(id)}` }</p>
                   <p>{ `R$ ${this.getExactPrice(id, price).toFixed(2)}` }</p>
                 </span>
               </span>

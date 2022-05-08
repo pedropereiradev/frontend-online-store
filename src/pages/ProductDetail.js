@@ -7,7 +7,6 @@ import SideDrawer from '../components/SideDrawer';
 import Backdrop from '../components/Backdrop';
 import * as api from '../services/api';
 import ProductDetailCard from '../components/ProductDetailCard';
-import { setNewCartProduct } from '../services/cartApi';
 
 class ProductDetail extends Component {
   constructor() {
@@ -16,37 +15,11 @@ class ProductDetail extends Component {
     this.state = {
       productInfos: {},
       isloading: true,
-      cartStatus: false,
-      sideDrawerState: false,
     };
-
-    this.addToCart = this.addToCart.bind(this);
   }
 
   componentDidMount() {
     this.getProductInfo();
-  }
-
-  drawerToggleClickHandler = () => {
-    this.setState(({ sideDrawerState: oldvalue }) => ({
-      sideDrawerState: !oldvalue,
-    }));
-  }
-
-  closeDrawerHandler = () => {
-    this.setState({
-      sideDrawerState: false,
-    });
-  }
-
-  updateCartStatus = () => {
-    this.setState({
-      cartStatus: true,
-    }, () => {
-      this.setState({
-        cartStatus: false,
-      });
-    });
   }
 
   getProductInfo = async () => {
@@ -56,27 +29,23 @@ class ProductDetail extends Component {
       },
     } = this.props;
     const productDetails = await api.getProductFromId(id);
+
     this.setState({
       productInfos: { ...productDetails },
       isloading: false,
     });
   };
 
-  addToCart(product) {
-    setNewCartProduct(product);
-    this.updateCartStatus();
-  }
-
   render() {
     const {
       match: { params: { id } },
+      drawerToggleClickHandler, closeDrawerHandler,
+      updateCartStatus, addToCart, cartStatus, sideDrawerState
     } = this.props;
     const {
       productInfos,
       productInfos: { pictures, title, attributes, price },
       isloading,
-      cartStatus,
-      sideDrawerState,
     } = this.state;
 
     let sideDrawer;
@@ -85,18 +54,18 @@ class ProductDetail extends Component {
     if (sideDrawerState) {
       sideDrawer = (
         <SideDrawer
-          closeSliderHandler={ this.closeDrawerHandler }
-          updateCart={ this.updateCartStatus }
+          closeSliderHandler={ closeDrawerHandler }
+          updateCart={ updateCartStatus }
         />
       );
-      backdrop = <Backdrop backdropClickHandler={ this.closeDrawerHandler } />;
+      backdrop = <Backdrop backdropClickHandler={ closeDrawerHandler } />;
     }
 
     return (
       <main>
         <Header
-          updateCart={ cartStatus }
-          drawerClickHandler={ this.drawerToggleClickHandler }
+          cartStatus={ cartStatus }
+          drawerClickHandler={ drawerToggleClickHandler }
         />
         {sideDrawer}
         {backdrop}
@@ -110,7 +79,8 @@ class ProductDetail extends Component {
               pictures={ pictures[0].url }
               attributes={ attributes }
               price={ price }
-              addToCart={ this.addToCart }
+              addToCart={ addToCart }
+              updateCart={ updateCartStatus }
             />
             <Avaliation id={ id } />
           </section>

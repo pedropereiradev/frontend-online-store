@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './ProductDetailCard.module.css';
-import { getQtde, updateQtde } from '../services/cartApi';
+import { getCartProducts } from '../services/cartApi';
 
 class ProductDetailCard extends Component {
   constructor() {
@@ -17,7 +17,9 @@ class ProductDetailCard extends Component {
 
   componentDidMount() {
     const { productInfos: { id } } = this.props;
-    const { amount } = getQtde(id);
+    const { amount } = getCartProducts()
+      .find(({ product: { id: itemId } }) => itemId === id);
+
     this.setState({
       amount,
     });
@@ -25,29 +27,31 @@ class ProductDetailCard extends Component {
 
   getPriceTimesAmount(id) {
     const { price } = this.props;
-    return getQtde(id).amount * price;
+    const { amount } = getCartProducts()
+      .find(({ product: { id: itemId } }) => itemId === id);
+    return amount * price;
   }
 
   updateAmount({ target: { name } }) {
-    const { productInfos: { id } } = this.props;
-    const { amount } = this.state;
-    if (name === 'up') {
-      this.setState(({ amount: prevAmount }) => ({
-        amount: prevAmount + 1,
-        isBtnAddCartDisabled: prevAmount === 0,
-      }), () => {
-        this.disableButton();
-        updateQtde(id, amount + 1);
-      });
-    } else if (amount > 0) {
-      this.setState(({ amount: prevAmount }) => ({
-        amount: prevAmount - 1,
-        isBtnAddCartDisabled: prevAmount === 0,
-      }), () => {
-        this.disableButton();
-        updateQtde(id, amount - 1);
-      });
-    }
+    // const { productInfos: { id } } = this.props;
+    // const { amount } = this.state;
+    // if (name === 'up') {
+    //   this.setState(({ amount: prevAmount }) => ({
+    //     amount: prevAmount + 1,
+    //     isBtnAddCartDisabled: prevAmount === 0,
+    //   }), () => {
+    //     this.disableButton();
+    //     updateQtde(id, amount + 1);
+    //   });
+    // } else if (amount > 0) {
+    //   this.setState(({ amount: prevAmount }) => ({
+    //     amount: prevAmount - 1,
+    //     isBtnAddCartDisabled: prevAmount === 0,
+    //   }), () => {
+    //     this.disableButton();
+    //     updateQtde(id, amount - 1);
+    //   });
+    // }
   }
 
   disableButton() {

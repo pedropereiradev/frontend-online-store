@@ -3,40 +3,11 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductCart from './ProductCart';
 import style from './SideDrawer.module.css';
-import { getCartProducts, removeCartItem } from '../services/cartApi';
 
 class SideDrawer extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      getAllCartProducts: false,
-      products: [],
-    };
-  }
-
-  componentDidMount() {
-    const products = getCartProducts();
-
-    this.setState({
-      products,
-      getAllCartProducts: true,
-    });
-  }
-
-  handleClick = (product) => {
-    const { updateCart } = this.props;
-
-    removeCartItem(product);
-    updateCart();
-    const products = getCartProducts();
-
-    this.setState({ products });
-  }
-
   render() {
-    const { closeSliderHandler } = this.props;
-    const { products, getAllCartProducts } = this.state;
+    const { closeSliderHandler, removeFromCart, cartProducts } = this.props;
+    const products = cartProducts.map(({ product }) => product);
 
     return (
       <div className={ style.drawerContainer }>
@@ -69,15 +40,13 @@ class SideDrawer extends Component {
                 <div className={ style.cartContainer }>
                   <section className={ style.productsContainer }>
                     {
-                      getAllCartProducts && (
-                        products.map((product) => (
-                          <ProductCart
-                            key={ product.id }
-                            product={ product }
-                            handleClick={ this.handleClick }
-                          />
-                        ))
-                      )
+                      products.map((product) => (
+                        <ProductCart
+                          key={ product.id }
+                          product={ product }
+                          handleClick={ removeFromCart }
+                        />
+                      ))
                     }
                   </section>
                   <Link
@@ -99,7 +68,6 @@ class SideDrawer extends Component {
 
 SideDrawer.propTypes = {
   closeSliderHandler: PropTypes.func.isRequired,
-  updateCart: PropTypes.func.isRequired,
 };
 
 export default SideDrawer;

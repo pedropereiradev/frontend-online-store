@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import BuyerInfo from '../components/BuyerInfo';
 import Payment from '../components/Payment';
 import Review from '../components/Review';
-import { cleanCart, getCartProducts, getQtde } from '../services/cartApi';
+import { cleanCart, getCartProducts } from '../services/cartApi';
 import getCepInfo from '../services/cepApi';
 import { eightNumberPhone, formatCpf, nineNumberPhone } from '../services/infoApi';
 import CompraConcluida from '../components/CompraConcluida';
@@ -45,8 +45,8 @@ class Checkout extends Component {
 
   componentDidMount() {
     const cart = getCartProducts();
-    const total = cart.reduce((acc, { price, id }) => (
-      acc + (price * getQtde(id).amount)
+    const total = cart.reduce((acc, { product: { price }, amount }) => (
+      acc + (price * amount)
     ), 0);
     this.setState({ cart, total });
   }
