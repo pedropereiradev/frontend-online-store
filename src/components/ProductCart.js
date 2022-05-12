@@ -50,7 +50,7 @@ class ProductCart extends Component {
           </button>
         </div>
         <span className={ styles.totalPrice }>
-          {`Total: R$${product.price * amount}`}
+          {`Total: R$${(product.price * amount).toFixed(2)}`}
         </span>
         <button
           type="button"
