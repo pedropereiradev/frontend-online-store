@@ -12,6 +12,10 @@ onde os usuários poderão:
 * Visualizar detalhes e avaliações prévias de um produto, bem como criar novas avaliações;
 * E por fim, finalizar a compra (simulada) dos itens selecionados.
 
+## Demonstração
+
+_[Projeto - Frontend Online Store](https://pedropereiradev-online-store.vercel.app/)_
+
 ## Habilidades
 
 Nesse projeto, utilizamos:
